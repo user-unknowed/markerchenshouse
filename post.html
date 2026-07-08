@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>文章详情 · Marker Chen 的小站</title>
+  <link rel="stylesheet" href="./css/style.css" />
+  <base href="./" />
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('blog-theme') || 'light';
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <div id="site-header"></div>
+
+  <main class="container">
+    <a class="back-link" href="./index.html">← 返回首页</a>
+    <article id="post-detail" class="post-detail">
+      <div class="empty-state"><p>加载中…</p></div>
+    </article>
+    <nav id="post-nav" class="post-nav" aria-label="上下篇文章"></nav>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="./js/app.js"></script>
+  <script>
+    function getPostId() {
+      const params = new URLSearchParams(location.search);
+      return params.get("id");
+    }
+
+    function renderPostNav(posts, currentIndex) {
+      const root = document.getElementById("post-nav");
+      if (posts.length <= 1) {
+        root.innerHTML = "";
+        return;
+      }
+      // 因为 posts 是倒序，currentIndex 是数组索引
+      // 上一篇 = 索引 + 1（更早的一篇），下一篇 = 索引 - 1（更新的一篇）
+      const older = posts[currentIndex + 1];   // 上一篇（更早）
+      const newer = posts[currentIndex - 1];   // 下一篇（更新）
+      const oldHtml = older
+        ? `<a href="./post.html?id=${encodeURIComponent(older.id)}">
+             <span class="nav-label">← 上一篇</span>
+             <span class="nav-title">${Blog.escapeHtml(older.title)}</span>
+           </a>`
+        : `<div class="nav-empty"></div>`;
+      const newHtml = newer
+        ? `<a href="./post.html?id=${encodeURIComponent(newer.id)}">
+             <span class="nav-label">下一篇 →</span>
+             <span class="nav-title">${Blog.escapeHtml(newer.title)}</span>
+           </a>`
+        : `<div class="nav-empty"></div>`;
+      root.innerHTML = oldHtml + newHtml;
+    }
+
+    (async function init() {
+      Blog.applyTheme(Blog.getSavedTheme());
+      Blog.renderHeader();
+      Blog.renderFooter();
+
+      const detail = document.getElementById("post-detail");
+      const id = getPostId();
+
+      if (!id) {
+        detail.innerHTML = `<div class="empty-state"><p>未指定文章 id</p></div>`;
+        return;
+      }
+
+      try {
+        await Blog.ensureMarkedLoaded();
+        await Blog.ensureHighlightLoaded();
+        Blog.configureMarked();
+
+        const posts = await Blog.loadPosts();
+        const idx = posts.findIndex((p) => p.id === id);
+        if (idx === -1) {
+          detail.innerHTML = `<div class="empty-state"><p>找不到这篇文章。</p><p><a href="./index.html">回到首页</a></p></div>`;
+          return;
+        }
+        const post = posts[idx];
+        document.title = `${post.title} · Marker Chen 的小站`;
+
+        const minutes = Blog.estimateReadingTime(post.content || "");
+        const tagsHtml = (post.tags || [])
+          .map((t) => `<a class="tag-chip" href="./tag.html?name=${encodeURIComponent(t)}">#${Blog.escapeHtml(t)}</a>`)
+          .join(" ");
+
+        detail.innerHTML = `
+          <header class="post-header">
+            <h1 class="post-title">${Blog.escapeHtml(post.title)}</h1>
+            <div class="post-meta">
+              <span class="meta-item">✍ ${Blog.escapeHtml(post.author || "Marker Chen")}</span>
+              <span class="meta-item">📅 ${Blog.formatDate(post.date)}</span>
+              <span class="meta-item">⏱ 约 ${minutes} 分钟阅读</span>
+              <span class="meta-item">🏷 ${tagsHtml}</span>
+            </div>
+          </header>
+          <div class="markdown-body" id="md-body">${Blog.renderMarkdown(post.content || "")}</div>
+        `;
+
+        renderPostNav(posts, idx);
+      } catch (err) {
+        detail.innerHTML = `<div class="empty-state"><p>加载失败：${Blog.escapeHtml(err.message)}</p></div>`;
+      }
+    })();
+  </script>
+</body>
+</html>

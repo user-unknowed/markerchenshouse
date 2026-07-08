@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marker Chen 的小站 · 首页</title>
+  <meta name="description" content="陈尹涛（Marker Chen）的个人小站——记录读书、编程与 vibe coding。" />
+  <link rel="stylesheet" href="./css/style.css" />
+  <base href="./" />
+  <script>
+    // 提前应用主题，避免闪烁
+    (function () {
+      try {
+        var t = localStorage.getItem('blog-theme') || 'light';
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <div id="site-header"></div>
+
+  <main class="container">
+    <h1 class="page-title">所有文章</h1>
+    <p class="page-subtitle">共 <span id="total-count">0</span> 篇 · 按发布时间倒序</p>
+
+    <section id="post-list" class="post-list" aria-live="polite"></section>
+
+    <nav class="pagination" id="pagination" aria-label="分页导航"></nav>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="./js/app.js"></script>
+  <script>
+    const PAGE_SIZE = 10;
+
+    function renderCard(post) {
+      const tags = (post.tags || [])
+        .map((t) => `<a class="tag-chip" href="./tag.html?name=${encodeURIComponent(t)}">#${Blog.escapeHtml(t)}</a>`)
+        .join("");
+      const excerpt = post.excerpt || Blog.extractExcerpt(post.content, 140);
+      return `
+        <article class="post-card">
+          <h2><a href="./post.html?id=${encodeURIComponent(post.id)}">${Blog.escapeHtml(post.title)}</a></h2>
+          <div class="post-meta">
+            <span class="meta-item">📅 ${Blog.formatDate(post.date)}</span>
+            <span class="meta-item">✍ ${Blog.escapeHtml(post.author || "Marker Chen")}</span>
+          </div>
+          <p class="post-excerpt">${Blog.escapeHtml(excerpt)}</p>
+          <div class="post-tags">${tags}</div>
+        </article>
+      `;
+    }
+
+    function getPageFromURL() {
+      const params = new URLSearchParams(location.search);
+      const p = parseInt(params.get("page") || "1", 10);
+      return isNaN(p) || p < 1 ? 1 : p;
+    }
+
+    function setPageInURL(page) {
+      const params = new URLSearchParams(location.search);
+      if (page === 1) params.delete("page");
+      else params.set("page", String(page));
+      const qs = params.toString();
+      const url = qs ? `?${qs}` : location.pathname;
+      history.replaceState(null, "", url);
+    }
+
+    function renderPagination(currentPage, totalPages) {
+      const root = document.getElementById("pagination");
+      if (totalPages <= 1) {
+        root.innerHTML = `<span class="page-info">共 ${totalPages} 页 · 当前第 ${currentPage} 页</span>`;
+        return;
+      }
+
+      // 计算显示的页码范围
+      const pages = [];
+      const add = (p) => pages.push(p);
+      const window_ = 1; // 当前页左右各显示几个
+      add(1);
+      if (currentPage - window_ > 2) add("…");
+      for (let i = Math.max(2, currentPage - window_); i <= Math.min(totalPages - 1, currentPage + window_); i++) {
+        add(i);
+      }
+      if (currentPage + window_ < totalPages - 1) add("…");
+      if (totalPages > 1) add(totalPages);
+
+      let html = "";
+      // 上一页
+      html += `<button type="button" data-page="${currentPage - 1}" ${currentPage === 1 ? "disabled" : ""}>‹ 上一页</button>`;
+
+      pages.forEach((p) => {
+        if (p === "…") {
+          html += `<span class="ellipsis">…</span>`;
+        } else if (p === currentPage) {
+          html += `<button type="button" class="page-current" disabled>${p}</button>`;
+        } else {
+          html += `<button type="button" data-page="${p}">${p}</button>`;
+        }
+      });
+
+      // 下一页
+      html += `<button type="button" data-page="${currentPage + 1}" ${currentPage === totalPages ? "disabled" : ""}>下一页 ›</button>`;
+      html += `<span class="page-info">共 ${totalPages} 页 · 当前第 ${currentPage} 页</span>`;
+
+      root.innerHTML = html;
+
+      // 绑定事件
+      root.querySelectorAll("button[data-page]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const p = parseInt(btn.dataset.page, 10);
+          if (p >= 1 && p <= totalPages) {
+            setPageInURL(p);
+            renderPage(p);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }
+        });
+      });
+    }
+
+    function renderPage(page) {
+      const list = document.getElementById("post-list");
+      const totalPages = Math.max(1, Math.ceil(_allPosts.length / PAGE_SIZE));
+      page = Math.max(1, Math.min(page, totalPages));
+      const start = (page - 1) * PAGE_SIZE;
+      const end = start + PAGE_SIZE;
+      const pagePosts = _allPosts.slice(start, end);
+
+      list.innerHTML =
+        pagePosts.map(renderCard).join("") ||
+        `<div class="empty-state"><p>暂无文章</p></div>`;
+
+      renderPagination(page, totalPages);
+    }
+
+    let _allPosts = [];
+    (async function init() {
+      Blog.applyTheme(Blog.getSavedTheme());
+      Blog.renderHeader();
+      Blog.renderFooter();
+
+      try {
+        _allPosts = await Blog.loadPosts();
+        document.getElementById("total-count").textContent = _allPosts.length;
+        const page = getPageFromURL();
+        renderPage(page);
+      } catch (err) {
+        document.getElementById("post-list").innerHTML =
+          `<div class="empty-state"><p>文章加载失败：${Blog.escapeHtml(err.message)}</p></div>`;
+      }
+    })();
+  </script>
+</body>
+</html>

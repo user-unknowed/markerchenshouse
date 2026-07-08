@@ -1,0 +1,156 @@
+[
+  {
+    "id": "hello-world",
+    "title": "Hello, World —— 我的第一篇博客",
+    "date": "2026-07-05",
+    "author": "Marker Chen",
+    "tags": [
+      "随笔",
+      "生活"
+    ],
+    "excerpt": "这是博客的第一篇文章。在这里，我打算记录下学习、思考与生活中的点滴。博客以静态站点的形式搭建，没有花哨的功能，只想写得舒服、读得舒心。",
+    "content": "# Hello, World\n\n欢迎来到我的个人博客。\n\n这是我开博的第一篇文章。搭建这个站点用了一点点时间，最初只是想找一个**能让我安静写字**的地方。\n\n## 为什么要写博客\n\n写博客对我来说有三件事：\n\n1. 整理思路 —— 把脑子里一团浆糊的想法变成清晰的句子\n2. 留下记录 —— 防止学到的东西过几个月就忘掉\n3. 结识同好 —— 写出来才有机会被人看见\n\n> 写作即思考。当你尝试把一个想法写下来时，你才真正开始理解它。\n\n## 关于这个站点\n\n- **技术栈**：纯静态 HTML / CSS / JavaScript\n- **Markdown 渲染**：marked.js + highlight.js\n- **部署**：云端沙箱\n- **主题**：支持亮色 / 暗色切换，记忆你的偏好\n\n## 接下来会写什么\n\n未来我打算在这里写：\n\n- 一些技术笔记（前端、AI、工具链）\n- 读过的书、看过的电影\n- 工作中的小想法\n- 偶尔的随笔\n\n如果你恰好看到这里，欢迎留言交流。\n\n---\n\n*愿你也能找到让自己持续写下去的理由。*"
+  },
+  {
+    "id": "javascript-async-guide",
+    "title": "深入理解 JavaScript 异步编程：Promise、async/await 全攻略",
+    "date": "2026-07-01",
+    "author": "Marker Chen",
+    "tags": [
+      "JavaScript",
+      "前端",
+      "教程"
+    ],
+    "excerpt": "异步编程是 JavaScript 的核心能力之一。本文从回调函数讲起，逐步深入到 Promise、async/await，配合示例讲清常见陷阱。",
+    "content": "# 深入理解 JavaScript 异步编程\n\n异步编程是前端工程师绕不开的话题。这篇文章会从最基础的回调函数讲起，覆盖到 `async/await` 的最佳实践。\n\n## 1. 回调函数时代\n\n最早我们用回调函数处理异步：\n\n```javascript\nfs.readFile('config.json', 'utf8', (err, data) => {\n  if (err) {\n    console.error('读取失败', err);\n    return;\n  }\n  console.log(data);\n});\n```\n\n回调的缺点很明显——**回调地狱（Callback Hell）**：\n\n```javascript\nlogin(user, (err, token) => {\n  getProfile(token, (err, profile) => {\n    getOrders(profile.id, (err, orders) => {\n      // ... 越来越深\n    });\n  });\n});\n```\n\n## 2. Promise：链式调用\n\nPromise 把回调地狱摊平成一条链：\n\n```javascript\nlogin(user)\n  .then(token => getProfile(token))\n  .then(profile => getOrders(profile.id))\n  .then(orders => render(orders))\n  .catch(err => console.error(err));\n```\n\n### Promise 的三种状态\n\n| 状态 | 含义 | 是否可逆 |\n|------|------|---------|\n| pending | 等待中 | 是 |\n| fulfilled | 已成功 | 否 |\n| rejected | 已失败 | 否 |\n\n## 3. async/await：同步写法\n\n`async/await` 是 Promise 之上的语法糖，让异步代码看起来像同步代码：\n\n```javascript\nasync function loadDashboard() {\n  try {\n    const user = await login('alice');\n    const profile = await getProfile(user.token);\n    const orders = await getOrders(profile.id);\n    return { profile, orders };\n  } catch (err) {\n    console.error('加载失败', err);\n    throw err;\n  }\n}\n```\n\n## 4. 常见陷阱\n\n### 4.1 忘记 `await`\n\n```javascript\n// ❌ 错误：得到的是 Promise 对象\nconst data = fetchUser();\n\n// ✅ 正确\nconst data = await fetchUser();\n```\n\n### 4.2 串行 vs 并行\n\n如果几个异步操作**互不依赖**，应该用 `Promise.all` 并行：\n\n```javascript\n// ❌ 慢：串行\nconst a = await getA();\nconst b = await getB();\n\n// ✅ 快：并行\nconst [a, b] = await Promise.all([getA(), getB()]);\n```\n\n### 4.3 未捕获的拒绝\n\n\n```javascript\nasync function bad() {\n  throw new Error('出错了');\n}\n\nbad().catch(console.error); // 别忘了 catch\n```\n\n## 5. 小结\n\n- 回调函数适合最简单场景\n- Promise 是异步的**通用抽象**\n- `async/await` 是当前最推荐的写法\n- 注意 `Promise.all` 的并行优化\n\n掌握好这套组合，你的异步代码会清爽很多。"
+  },
+  {
+    "id": "css-flexbox-vs-grid",
+    "title": "Flexbox 还是 Grid？聊聊两种布局方案的取舍",
+    "date": "2026-06-26",
+    "author": "Marker Chen",
+    "tags": [
+      "CSS",
+      "前端",
+      "教程"
+    ],
+    "excerpt": "Flexbox 和 Grid 都是现代 CSS 布局利器，但它们的设计初衷不同。本文用真实场景对比两者的差异。",
+    "content": "# Flexbox 还是 Grid？\n\n刚接触现代 CSS 布局的工程师常常纠结：什么时候用 Flexbox，什么时候用 Grid？\n\n## 一句话原则\n\n- **Flexbox**：一维布局（行或列）\n- **Grid**：二维布局（行+列）\n\n## 案例 1：导航栏\n\n导航栏是典型的**单行**布局——用 Flexbox 最合适：\n\n```css\n.nav {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 16px;\n}\n```\n\n## 案例 2：卡片网格\n\n商品卡片、博客列表是**多行多列**的二维布局——Grid 写起来更直观：\n\n```css\n.grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));\n  gap: 20px;\n}\n```\n\n## 案例 3：整页布局\n\n```css\n.layout {\n  display: grid;\n  grid-template-areas:\n    \"header header\"\n    \"sidebar main\"\n    \"footer footer\";\n  grid-template-columns: 240px 1fr;\n  gap: 16px;\n}\n.header  { grid-area: header; }\n.sidebar { grid-area: sidebar; }\n.main    { grid-area: main; }\n.footer  { grid-area: footer; }\n```\n\n## 它们能混用吗？\n\n**可以，而且经常混用。** 比如 Grid 容器里某个卡片内部用 Flexbox 对齐图标和文字。\n\n## 怎么选？\n\n1. 先看是**一维**还是**二维**\n2. 一维：Flexbox\n3. 二维：Grid\n4. 卡片内部、按钮组等小范围：Flexbox\n5. 实在拿不准——选 Grid 也不亏\n\n> 没有绝对的优劣，只有合不合适。"
+  },
+  {
+    "id": "python-data-analysis-notes",
+    "title": "Python 数据分析入门：用 Pandas 处理真实数据",
+    "date": "2026-06-20",
+    "author": "Marker Chen",
+    "tags": [
+      "Python",
+      "数据",
+      "教程"
+    ],
+    "excerpt": "Pandas 是 Python 数据分析的事实标准库。本文用一个销售数据示例走完常见的数据处理流程。",
+    "content": "# Python 数据分析入门\n\nPandas 是数据分析的瑞士军刀。这篇文章用一个销售数据示例带大家走一遍常见流程。\n\n## 准备数据\n\n```python\nimport pandas as pd\n\ndata = {\n    \"日期\":  [\"2026-01-01\", \"2026-01-02\", \"2026-01-03\", \"2026-01-04\"],\n    \"商品\":  [\"A\", \"B\", \"A\", \"C\"],\n    \"数量\":  [10, 5, 8, 12],\n    \"单价\":  [99, 199, 99, 49],\n}\ndf = pd.DataFrame(data)\ndf[\"总额\"] = df[\"数量\"] * df[\"单价\"]\nprint(df)\n```\n\n输出：\n\n```\n         日期 商品  数量   单价  总额\n0  2026-01-01  A   10   99   990\n1  2026-01-02  B    5  199   995\n2  2026-01-03  A    8   99   792\n3  2026-01-04  C   12   49   588\n```\n\n## 常用操作\n\n### 筛选\n\n```python\n# 数量大于 6 的记录\nprint(df[df[\"数量\"] > 6])\n```\n\n### 分组聚合\n\n```python\nprint(df.groupby(\"商品\")[\"总额\"].sum())\n```\n\n### 排序\n\n```python\nprint(df.sort_values(\"总额\", ascending=False))\n```\n\n### 缺失值处理\n\n```python\ndf.fillna(0, inplace=True)         # 填充\ndf.dropna(subset=[\"单价\"], inplace=True)  # 删除\n```\n\n## 导出\n\n```python\ndf.to_csv(\"output.csv\", index=False)\ndf.to_excel(\"output.xlsx\", index=False)\n```\n\n## 小结\n\n- **DataFrame** 是核心数据结构\n- 常用操作：筛选、分组、聚合、排序、缺失值\n- 配合 **Matplotlib** 或 **Seaborn** 可以做可视化\n\nPandas 看似 API 多，但 80% 的工作靠 20% 的函数就能完成。掌握上面这些，足够应付日常分析了。"
+  },
+  {
+    "id": "git-rebase-vs-merge",
+    "title": "git rebase 还是 merge？什么时候用哪个",
+    "date": "2026-06-15",
+    "author": "Marker Chen",
+    "tags": [
+      "Git",
+      "工具",
+      "教程"
+    ],
+    "excerpt": "rebase 和 merge 都能整合分支，但提交历史长得不一样。本文讲清两者的差异与适用场景。",
+    "content": "# git rebase 还是 merge？\n\n`git rebase` 和 `git merge` 都能把分支合到一起，但结果完全不同。\n\n## merge：保留真实历史\n\n```bash\ngit checkout main\ngit merge feature/login\n```\n\n结果：产生一个**合并提交**，分叉和合并都清晰可见。\n\n```\n*   M  Merge branch 'feature/login'\n|\\\n| * xxx 添加登录\n| * xxx 表单校验\n* |\n|/\n* xxx 初始提交\n```\n\n优点：\n- 历史**真实**，反映实际开发过程\n- 公共分支的**安全选择**\n\n缺点：\n- 提交历史会有很多分叉和合并节点\n\n## rebase：线性整洁\n\n```bash\ngit checkout feature/login\ngit rebase main\n```\n\n结果：把你的提交\"重新播放\"到 main 之后，历史变成一条直线。\n\n```\n* xxx 添加登录\n* xxx 表单校验\n* xxx 初始提交\n```\n\n优点：\n- 历史**干净线性**，便于阅读\n- 适合在合并前整理自己的提交\n\n缺点：\n- **改写了提交历史**\n- 不要在公共分支上 rebase\n\n## 黄金法则\n\n> **本地分支可以 rebase，公共分支永远用 merge。**\n\n推荐工作流：\n1. 在 feature 分支开发\n2. 合并前 `git rebase main`，整理自己的提交\n3. 切到 main，`git merge --no-ff feature/login`\n\n这样既能保持历史整洁，又不会破坏他人工作。\n\n## 常用命令\n\n```bash\n# 交互式 rebase，合并/编辑/删除最近几次提交\ngit rebase -i HEAD~3\n\n# rebase 后遇到冲突\ngit add <解决后的文件>\ngit rebase --continue\n\n# 放弃 rebase\ngit rebase --abort\n```\n\n## 总结\n\n| 场景 | 推荐 |\n|------|------|\n| 整合功能分支到 main | merge (--no-ff) |\n| 整理本地未推送的提交 | rebase |\n| 同步 main 最新代码 | rebase |\n| 团队协作者的分支 | 不要 rebase |\n\n记住黄金法则，基本不会出错。"
+  },
+  {
+    "id": "vscode-tips",
+    "title": "VS Code 高效使用指南：那些我离不开的快捷键和插件",
+    "date": "2026-06-08",
+    "author": "Marker Chen",
+    "tags": [
+      "工具",
+      "效率"
+    ],
+    "excerpt": "VS Code 是我用得最多的编辑器。这篇文章整理了提升效率的快捷键、设置和我常用的插件。",
+    "content": "# VS Code 高效使用指南\n\nVS Code 是我日常使用频率最高的工具。这篇文章整理了**让我离不开**的快捷键和插件。\n\n## 必记快捷键\n\n| 快捷键 | 作用 |\n|--------|------|\n| `Ctrl/Cmd + P` | 快速打开文件 |\n| `Ctrl/Cmd + Shift + P` | 命令面板 |\n| `Ctrl/Cmd + D` | 多选下一个匹配项 |\n| `Alt + ↑/↓` | 上/下移动当前行 |\n| `Shift + Alt + ↑/↓` | 复制当前行 |\n| `Ctrl/Cmd + /` | 注释/取消注释 |\n| `Ctrl/Cmd + B` | 切换侧边栏 |\n| `Ctrl/Cmd + \\`` | 打开/关闭终端 |\n| `Alt + 单击` | 多光标选择 |\n| `Ctrl/Cmd + Shift + K` | 删除当前行 |\n\n## 强烈推荐的插件\n\n### 编辑增强\n- **ESLint** / **Prettier** —— 代码规范和格式化\n- **Error Lens** —— 把错误信息内联显示在代码行末\n- **Code Spell Checker** —— 拼写检查\n- **Indent Rainbow** —— 缩进颜色\n\n### 前端开发\n- **Live Server** —— 本地静态服务，热刷新\n- **Auto Rename Tag** —— 自动重命名配对标签\n- **Path Intellisense** —— 路径补全\n- **Volar** —— Vue 官方推荐\n\n### Git\n- **GitLens** —— 行内显示 git blame\n- **Git Graph** —— 可视化提交图\n\n### Markdown\n- **Markdown All in One**\n- **Markdown Preview Enhanced**\n\n## 实用配置\n\n```jsonc\n// settings.json\n{\n  \"editor.fontSize\": 14,\n  \"editor.lineHeight\": 1.7,\n  \"editor.formatOnSave\": true,\n  \"editor.minimap.enabled\": false,\n  \"editor.bracketPairColorization.enabled\": true,\n  \"files.trimTrailingWhitespace\": true,\n  \"terminal.integrated.fontSize\": 13\n}\n```\n\n## 小技巧\n\n### 1. 多光标选词\n按 `Ctrl/Cmd + D` 多次，会逐个选中下一个相同词。\n\n### 2. 列选择\n按住 `Alt + 拖动` 即可纵向选中。\n\n### 3. 跳到匹配的括号\n`Ctrl/Cmd + Shift + \\`\n\n### 4. 重命名变量\n选中变量，按 `F2`，所有引用一并修改。\n\n## 写在最后\n\n工具是为人服务的，**不要为了用工具而用工具**。上面这些是我筛选下来真正高频使用的，按需取用就好。"
+  },
+  {
+    "id": "docker-intro",
+    "title": "Docker 入门：从零理解容器化",
+    "date": "2026-06-01",
+    "author": "Marker Chen",
+    "tags": [
+      "Docker",
+      "运维",
+      "教程"
+    ],
+    "excerpt": "Docker 让\"在我电脑上能跑\"不再成为借口。本文从最基础的概念讲起，配上实操命令。",
+    "content": "# Docker 入门\n\n容器化已经成了现代开发的标配。这篇文章带你从零理解 Docker。\n\n## 为什么要用 Docker\n\n经典对话：\n\n> - \"你这个项目怎么跑？\"\n> - \"装个 Node 18，再装个 Redis 7，还要……\"\n> - \"在我电脑上能跑啊。\"\n\nDocker 解决的就是这种问题：**把应用和它依赖的环境打包在一起**，到哪都能跑。\n\n## 三个核心概念\n\n| 概念 | 解释 |\n|------|------|\n| **镜像 (Image)** | 只读模板，相当于类 |\n| **容器 (Container)** | 镜像的运行实例，相当于对象 |\n| **仓库 (Registry)** | 存放镜像的地方，Docker Hub 最常用 |\n\n## 第一个 Docker 命令\n\n```bash\n# 拉取 nginx 镜像\ndocker pull nginx\n\n# 运行一个容器\ndocker run -d -p 8080:80 --name my-nginx nginx\n\n# 查看运行中的容器\ndocker ps\n\n# 停止容器\ndocker stop my-nginx\n\n# 删除容器\ndocker rm my-nginx\n```\n\n打开浏览器访问 `http://localhost:8080` 就能看到 nginx 欢迎页。\n\n## Dockerfile\n\n把构建镜像的过程写进文件：\n\n```dockerfile\n# 基于 Node 18 镜像\nFROM node:18-alpine\n\n# 设置工作目录\nWORKDIR /app\n\n# 复制依赖文件\nCOPY package*.json ./\n\n# 安装依赖\nRUN npm install --production\n\n# 复制源码\nCOPY . .\n\n# 暴露端口\nEXPOSE 3000\n\n# 启动命令\nCMD [\"node\", \"server.js\"]\n```\n\n构建并运行：\n\n```bash\ndocker build -t my-app:1.0 .\ndocker run -d -p 3000:3000 my-app:1.0\n```\n\n## docker-compose\n\n需要多个容器时（比如 Web + 数据库），用 compose 文件统一管理：\n\n```yaml\n# docker-compose.yml\nversion: \"3\"\nservices:\n  web:\n    build: .\n    ports:\n      - \"3000:3000\"\n    depends_on:\n      - db\n  db:\n    image: postgres:15\n    environment:\n      POSTGRES_PASSWORD: secret\n```\n\n```bash\ndocker compose up -d\n```\n\n## 常用命令速查\n\n```bash\ndocker images              # 列出本地镜像\ndocker ps -a               # 列出所有容器\ndocker logs <name>         # 查看日志\ndocker exec -it <name> sh  # 进入容器\ndocker system prune        # 清理无用资源\n```\n\n## 小结\n\n- Docker 解决了环境一致性问题\n- 镜像 → 容器，类 → 对象\n- Dockerfile 描述镜像构建\n- docker-compose 管理多容器应用\n\n入门之后你会发现，原本要折腾半小时的环境问题，一个 `docker run` 就能搞定。"
+  },
+  {
+    "id": "design-thinking",
+    "title": "设计思维笔记：如何真正理解用户需求",
+    "date": "2026-05-25",
+    "author": "Marker Chen",
+    "tags": [
+      "设计",
+      "随笔",
+      "产品"
+    ],
+    "excerpt": "工程师容易陷入\"我觉得用户需要\"的陷阱。设计思维提供了一套系统的方法去理解真实需求。",
+    "content": "# 设计思维笔记\n\n做产品的同学几乎都听过\"设计思维\"，但很多人把它当成一句口号。这篇文章记一些我自己的体会。\n\n## 五个阶段\n\n1. **共情（Empathize）**—— 理解用户\n2. **定义（Define）**—— 找出真问题\n3. **构思（Ideate）**—— 发散想法\n4. **原型（Prototype）**—— 快速验证\n5. **测试（Test）**—— 迭代改进\n\n## 最容易跳过的阶段：共情\n\n工程师和 PM 最常犯的错误是**直接跳到解决方案**：\n\n> \"用户说登录太麻烦，那就加个第三方登录。\"\n\n但如果继续问：\n\n- 用户在什么场景下登录？\n- 用户的设备是什么？\n- 是网络问题还是流程问题？\n- 用户登录后要做什么？\n\n你可能会发现**根本问题不在登录流程**，而是用户在登录后找不到自己要的功能。\n\n## 一些实用问题清单\n\n跟用户聊之前，可以准备这些问题：\n\n- 你最近一次完成这个任务是什么时候？\n- 当时是什么场景？\n- 你原本期望发生什么？\n- 实际发生了什么？\n- 哪里让你觉得卡？\n- 你怎么解决的？\n\n注意：\n\n- **不要问\"你想要什么功能\"**——用户说的方案往往不是最优解\n- **问过去发生过什么**——比问\"你想要什么\"真实得多\n\n## 原型不是 Mockup\n\n\"原型\"的核心是**快速可试**。一份手绘草图、几张纸卡、几分钟的纸面原型都算原型。\n\n> 关键不是精致，是**可被测试**。\n\n## 写在最后\n\n设计思维不是流程，**是一种习惯**——遇到问题先停一下，回到用户那里去验证假设。\n\n很多看起来复杂的问题，回到源头反而变得简单。"
+  },
+  {
+    "id": "reading-list-2026",
+    "title": "2026 上半年读过的书：一份不完整书单",
+    "date": "2026-05-15",
+    "author": "Marker Chen",
+    "tags": [
+      "阅读",
+      "随笔",
+      "生活"
+    ],
+    "excerpt": "上半年读了一些书。挑几本印象最深的聊聊。",
+    "content": "# 2026 上半年读过的书\n\n上半年断断续续读了一些书，挑几本印象最深的聊聊。\n\n## 1. 《代码大全》—— 编程的\"百科全书\"\n\n虽然书很厚，但每一章都值得读。涵盖命名、注释、函数设计、调试、重构……\n\n> 适合每个写代码的人反复翻。\n\n## 2. 《设计模式：可复用面向对象软件的基础》\n\n经典中的经典。第一次读觉得晦涩，工作几年再读会不断点头。\n\n印象最深的是**观察者模式**——前端的事件系统、状态管理，背后都是它。\n\n## 3. 《人类简史》\n\n和写代码无关，但每次读都让我跳出技术视角看问题。\n\n> 我们以为自己在解决技术问题，但很多问题本质是人的问题。\n\n## 4. 《深度工作》\n\n在注意力被切碎的时代，这本书像一记提醒：\n\n> 真正有价值的产出，来自于**长时间无干扰的专注**。\n\n## 5. 《亲密关系》\n\n技术书读多了偶尔换换口味。这本书心理学实证严谨，又讲得通俗易懂。\n\n## 一点小建议\n\n- 不用追求读完，**读得进才是关键**\n- 一本书卡住就放一放，过段时间再读\n- 读完写几句笔记，比\"读完\"本身更有价值\n\n下半年打算读：\n\n- 《系统设计面试》\n- 《复杂》\n- 一些历史类\n\n如果你也读了什么好书，欢迎推荐。"
+  },
+  {
+    "id": "ai-tools-2026",
+    "title": "2026 年我常用的 AI 工具清单",
+    "date": "2026-05-05",
+    "author": "Marker Chen",
+    "tags": [
+      "AI",
+      "工具",
+      "效率"
+    ],
+    "excerpt": "AI 工具这两年爆发式增长，本文整理我日常在用的几款，附上使用场景。",
+    "content": "# 2026 年我常用的 AI 工具\n\nAI 工具层出不穷。这篇文章只列我**自己高频在用**的，不追求完整。\n\n## 1. 通用对话助手\n\n**WorkBuddy** —— 我的主力助手。写代码、整理文档、查资料、做方案都靠它。\n\n使用场景：\n- 写代码 / debug\n- 翻译、润色文字\n- 整理思路（它经常帮我把散乱的想法结构化）\n\n## 2. 代码相关\n\n- **GitHub Copilot** —— 行内补全，写重复代码时特别爽\n- **Cursor** —— AI-Native 的编辑器，复杂改动用 `Ctrl+K` 描述一下就行\n\n## 3. 图像生成\n\n- **Midjourney** —— 配图、概念图\n- **即梦** —— 中文场景下很顺手\n\n## 4. 笔记 / 写作\n\n- **Notion AI** —— 整理会议记录、提取要点\n- **飞书智能伙伴** —— 飞书生态里写文档\n\n## 5. 设计辅助\n\n- **MasterGo 莫高 AI** —— 自动出设计稿\n- **Figma AI** —— 抠图、改色\n\n## 我是怎么挑工具的\n\n- **真用起来**—— 装上不一定用，那就别装\n- **看嵌入流程**—— 一个工具如果让我切出当前工作流，我多半会放弃\n- **隐私**—— 涉及公司数据、敏感内容时优先考虑私有部署或不开 AI 训练\n\n## 不被替换的：判断力\n\n工具越来越强，但**判断力**依然是稀缺品。AI 擅长的是把已知的模式快速组合，**但它不知道你真正想要什么**。\n\n> 工具放大能力，不替代思考。"
+  },
+  {
+    "id": "system-design-basics",
+    "title": "系统设计入门：面试常考的几个核心问题",
+    "date": "2026-04-28",
+    "author": "Marker Chen",
+    "tags": [
+      "系统设计",
+      "后端",
+      "面试"
+    ],
+    "excerpt": "系统设计面试是高级岗位的必考题。本文整理常见考题与回答思路。",
+    "content": "# 系统设计入门\n\n系统设计是后端面试的\"大题\"。这篇文章整理几个常考的核心问题。\n\n## 1. 设计一个短链服务\n\n### 需求\n- 输入长 URL，返回短 URL\n- 短 URL 重定向到长 URL\n- 高可用、低延迟\n\n### 思路\n\n**短码生成**：\n- Hash：长 URL → MD5/SHA → 取前 N 位（可能冲突，需处理）\n- 自增 ID：base62 编码（62^N 容量巨大）\n\n**存储**：\n- 短码 → 长 URL 的映射\n- 读多写少 → 加缓存（Redis）\n\n**重定向**：\n- 301（永久）→ 浏览器缓存\n- 302（临时）→ 每次访问服务端\n\n## 2. 设计一个 Feed 流\n\n### 需求\n- 用户关注的人发布内容，聚合展示\n- 新内容近实时出现\n\n### 两种方案\n\n| 方案 | 写路径 | 读路径 | 适用 |\n|------|--------|--------|------|\n| 推（Fan-out on write） | 发新内容时推到每个粉丝收件箱 | 直接读自己的收件箱 | 关注关系少的用户（明星） |\n| 拉（Fan-out on read） | 写入发件箱 | 关注的人 + 自己发件箱聚合 | 关注关系多的用户 |\n\n**实际系统通常推拉结合。**\n\n## 3. 设计一个限流器\n\n### 常见算法\n\n**固定窗口**：\n```\n限制：每秒 100 次\n实现：计数器 + 定时清零\n缺点：窗口边界处的突发可能超限 2 倍\n```\n\n**滑动窗口**：\n```\n把窗口分成多个小段\n按权重合并过去 N 秒的请求数\n更精确，但实现复杂\n```\n\n**令牌桶**：\n```\n桶里持续生成令牌\n请求来时取令牌，取不到则拒绝\n允许一定程度的突发\n```\n\n**漏桶**：\n```\n请求进入漏桶\n桶以固定速率流出\n强制均匀速率\n```\n\n## 4. 一致性 vs 可用性\n\nCAP 定理：分布式系统最多同时满足其中两个。\n\n实际中：\n- **强一致**（CP）：金融、库存扣减\n- **最终一致**（AP）：社交 Feed、评论\n\n## 小结\n\n系统设计没有标准答案，**关键是把问题拆解清楚，把权衡讲明白**。\n\n面试时记住几个关键词：\n\n- **QPS 估算**\n- **数据量估算**\n- **读写比**\n- **瓶颈在哪里**\n- **怎么扩展**\n\n讲清楚思路比画出完美架构重要。"
+  },
+  {
+    "id": "travel-notes-chengdu",
+    "title": "成都四日：慢生活的几个切片",
+    "date": "2026-04-15",
+    "author": "Marker Chen",
+    "tags": [
+      "旅行",
+      "随笔",
+      "生活"
+    ],
+    "excerpt": "四月的成都，气温刚好，茶馆和巷子是主旋律。记几个印象深的瞬间。",
+    "content": "# 成都四日\n\n四月初去了一趟成都，待了四天。\n\n## 茶馆\n\n人民公园的鹤鸣茶馆，竹椅、老茶碗、几桌麻将。点一杯盖碗茶，十几块钱坐一下午。\n\n> 时间在这里好像被泡开了。\n\n## 巷子\n\n宽窄巷子太游客，反倒是附近的小通巷、奎星楼街更舒服。巷子不宽，两边是咖啡店、独立小店，节奏刚刚好。\n\n## 吃的\n\n- **火锅**：本地的朋友带去了一家社区店，锅底越煮越香\n- **串串**：冷锅串串比热锅省事\n- **抄手**：红油的、清汤的都试了\n- **冰粉**：饭后必须来一碗\n\n## 杜甫草堂\n\n意外地喜欢。从熙春坊走进去，竹林和茅草屋，**人一下就安静下来**。\n\n## 一些零碎\n\n- 出租车司机爱聊天\n- 便利店里的\"天府可乐\"\n- 路边的猫很淡定\n- 晚上十点还有夜宵\n\n## 写在最后\n\n成都是那种**让人学会慢下来**的城市。\n\n如果你正赶着一个 deadline，可以去成都坐一坐。"
+  }
+]

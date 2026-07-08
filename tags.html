@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>所有标签 · Marker Chen 的小站</title>
+  <link rel="stylesheet" href="./css/style.css" />
+  <base href="./" />
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('blog-theme') || 'light';
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <div id="site-header"></div>
+
+  <main class="container">
+    <h1 class="page-title">标签</h1>
+    <p class="page-subtitle">按主题浏览所有文章</p>
+
+    <section id="tag-grid" class="tag-grid"></section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="./js/app.js"></script>
+  <script>
+    (async function init() {
+      Blog.applyTheme(Blog.getSavedTheme());
+      Blog.renderHeader();
+      Blog.renderFooter();
+
+      const grid = document.getElementById("tag-grid");
+      try {
+        const posts = await Blog.loadPosts();
+        // 聚合标签
+        const map = new Map();
+        posts.forEach((p) => {
+          (p.tags || []).forEach((t) => {
+            map.set(t, (map.get(t) || 0) + 1);
+          });
+        });
+        const tags = Array.from(map.entries())
+          .map(([name, count]) => ({ name, count }))
+          .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, "zh-Hans-CN"));
+
+        if (tags.length === 0) {
+          grid.innerHTML = `<div class="empty-state"><p>暂无标签</p></div>`;
+          return;
+        }
+
+        grid.innerHTML = tags
+          .map(
+            (t) => `
+              <a class="tag-card" href="./tag.html?name=${encodeURIComponent(t.name)}">
+                <span class="tag-name">#${Blog.escapeHtml(t.name)}</span>
+                <span class="tag-count">${t.count}</span>
+              </a>`
+          )
+          .join("");
+      } catch (err) {
+        grid.innerHTML = `<div class="empty-state"><p>加载失败：${Blog.escapeHtml(err.message)}</p></div>`;
+      }
+    })();
+  </script>
+</body>
+</html>
