@@ -155,11 +155,6 @@
   function ensureHighlightLoaded() {
     return new Promise((resolve, reject) => {
       if (typeof window.hljs !== "undefined") return resolve();
-      const css = document.createElement("link");
-      css.rel = "stylesheet";
-      css.href = "https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/atom-one-dark.min.js";
-      // 上面这行其实不对——我们改用脚本动态注册语言的方式，避免外部 CSS 主题硬编码颜色
-      document.head.removeChild(css);
 
       const s = document.createElement("script");
       s.src = "https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/core.min.js";
