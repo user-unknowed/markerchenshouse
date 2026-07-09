@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>写文章 · Marker Chen 的小站</title>
+  <link rel="stylesheet" href="./css/style.css" />
+  <base href="./" />
+  <script>
+    // 提前应用主题
+    (function () {
+      try {
+        var t = localStorage.getItem('blog-theme') || 'light';
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <div id="site-header"></div>
+
+  <main class="container container-wide">
+    <!-- 登录/未配置面板 -->
+    <section id="gate-panel" class="admin-gate">
+      <div class="gate-card">
+        <div class="gate-icon">🔐</div>
+        <h1 class="gate-title" id="gate-title">解锁管理后台</h1>
+        <p class="gate-sub" id="gate-sub">
+          首次使用请设置一个管理密码；以后每次进入都要输入。
+        </p>
+
+        <div class="gate-form">
+          <label class="field">
+            <span class="field-label" id="pw-label">设置密码</span>
+            <input
+              type="password"
+              id="pw-input"
+              class="field-input"
+              placeholder="至少 6 位"
+              autocomplete="new-password"
+            />
+          </label>
+          <label class="field" id="pw-confirm-wrap" hidden>
+            <span class="field-label">再输一次</span>
+            <input
+              type="password"
+              id="pw-input-2"
+              class="field-input"
+              placeholder="确认密码"
+              autocomplete="new-password"
+            />
+          </label>
+          <div class="gate-error" id="gate-error" hidden></div>
+          <button class="btn btn-primary btn-block" id="gate-submit">解锁</button>
+        </div>
+
+        <details class="gate-tips">
+          <summary>忘了密码怎么办？</summary>
+          <p>
+            密码以 <code>SHA-256 哈希</code> 形式存于浏览器 <code>localStorage</code>，
+            没有任何远程备份。<br />
+            找回方法：在同一个浏览器里清掉 <code>localStorage</code> 里的
+            <code>blog-admin-pw-hash</code> 键即可重设。
+          </p>
+        </details>
+      </div>
+    </section>
+
+    <!-- 主体编辑器 -->
+    <section id="editor-panel" hidden>
+      <header class="admin-bar">
+        <div class="admin-bar-left">
+          <h1 class="admin-title">写文章</h1>
+          <span class="admin-status" id="admin-status">未配置</span>
+        </div>
+        <div class="admin-bar-right">
+          <button class="btn btn-ghost" id="btn-settings" title="GitHub / PAT 设置">⚙ 设置</button>
+          <button class="btn btn-ghost" id="btn-lock" title="锁定后台">🔒 锁定</button>
+        </div>
+      </header>
+
+      <!-- 设置弹层（默认收起） -->
+      <section class="admin-settings" id="admin-settings" hidden>
+        <h2>GitHub 仓库设置</h2>
+        <p class="muted">
+          Personal Access Token 必须有 <b>Contents: Read and write</b> 权限，
+          范围限定到 <code>user-unknowed/markerchenshouse</code>。Token 只存于本浏览器 localStorage，不会被上传。
+        </p>
+        <div class="settings-grid">
+          <label class="field">
+            <span class="field-label">仓库 owner</span>
+            <input type="text" id="cfg-owner" class="field-input" placeholder="user-unknowed" />
+          </label>
+          <label class="field">
+            <span class="field-label">仓库名</span>
+            <input type="text" id="cfg-repo" class="field-input" placeholder="markerchenshouse" />
+          </label>
+          <label class="field">
+            <span class="field-label">分支</span>
+            <input type="text" id="cfg-branch" class="field-input" placeholder="main" />
+          </label>
+          <label class="field">
+            <span class="field-label">数据文件路径</span>
+            <input type="text" id="cfg-data-path" class="field-input" placeholder="data/posts.json" />
+          </label>
+          <label class="field field-wide">
+            <span class="field-label">Personal Access Token</span>
+            <input
+              type="password"
+              id="cfg-token"
+              class="field-input"
+              placeholder="github_pat_..."
+              autocomplete="off"
+            />
+          </label>
+        </div>
+        <div class="settings-actions">
+          <button class="btn btn-primary" id="btn-save-cfg">保存设置</button>
+          <button class="btn btn-ghost" id="btn-test-cfg">测试连接</button>
+          <span class="settings-test" id="cfg-test-result"></span>
+        </div>
+      </section>
+
+      <!-- 表单 + 编辑器 -->
+      <form class="editor" id="editor-form" autocomplete="off">
+        <div class="editor-meta">
+          <label class="field">
+            <span class="field-label">标题 *</span>
+            <input type="text" id="f-title" class="field-input" required placeholder="给你的文章起个名字" />
+          </label>
+
+          <div class="meta-row">
+            <label class="field">
+              <span class="field-label">发布日期</span>
+              <input type="date" id="f-date" class="field-input" />
+            </label>
+            <label class="field">
+              <span class="field-label">作者</span>
+              <input type="text" id="f-author" class="field-input" placeholder="Marker Chen" />
+            </label>
+            <label class="field field-grow">
+              <span class="field-label">标签（用逗号分隔）</span>
+              <input type="text" id="f-tags" class="field-input" placeholder="随笔, 生活, 编程" />
+            </label>
+          </div>
+
+          <label class="field">
+            <span class="field-label">摘要（列表页会显示）</span>
+            <textarea id="f-excerpt" class="field-input field-textarea" rows="2" placeholder="一段简短引子；留空将自动从正文截取"></textarea>
+          </label>
+        </div>
+
+        <div class="editor-toolbar">
+          <div class="toolbar-group">
+            <button type="button" class="tool" data-md="**bold**" title="加粗">B</button>
+            <button type="button" class="tool" data-md="*italic*" title="斜体"><i>I</i></button>
+            <button type="button" class="tool" data-md="`code`" title="行内代码"><code>&lt;/&gt;</code></button>
+            <button type="button" class="tool" data-md-block="```\ncode\n```" title="代码块">代码块</button>
+            <button type="button" class="tool" data-md-block="## 标题" title="二级标题">H2</button>
+            <button type="button" class="tool" data-md-block="- 列表项" title="无序列表">• 列表</button>
+            <button type="button" class="tool" data-md-block="1. 列表项" title="有序列表">1. 列表</button>
+            <button type="button" class="tool" data-md-block="> 引用" title="引用">&gt; 引用</button>
+            <button type="button" class="tool" data-md-block="[链接文字](https://)" title="链接">🔗</button>
+            <button type="button" class="tool" data-md-block="![alt](https://)" title="图片">🖼</button>
+          </div>
+          <div class="toolbar-info">
+            <span id="word-count">0 字</span>
+            <span class="dot">·</span>
+            <span id="reading-time">1 分钟阅读</span>
+          </div>
+        </div>
+
+        <textarea
+          id="f-content"
+          class="field-textarea editor-content"
+          placeholder="# 标题
+
+开始写你的 Markdown 内容…"
+          required
+        ></textarea>
+
+        <div class="editor-actions">
+          <span class="editor-hint" id="editor-hint">填写完成后点击右侧按钮发布到 GitHub</span>
+          <div class="actions-right">
+            <button type="button" class="btn btn-ghost" id="btn-preview">本地预览</button>
+            <button type="button" class="btn btn-ghost" id="btn-save-draft">保存草稿</button>
+            <button type="submit" class="btn btn-primary" id="btn-publish">发布到 GitHub</button>
+          </div>
+        </div>
+      </form>
+
+      <!-- 预览弹层 -->
+      <section class="preview-overlay" id="preview-overlay" hidden>
+        <div class="preview-card">
+          <header class="preview-head">
+            <h2>本地预览</h2>
+            <button class="btn btn-ghost" id="btn-close-preview">关闭</button>
+          </header>
+          <div class="preview-body markdown-body" id="preview-body"></div>
+        </div>
+      </section>
+
+      <!-- 消息条 -->
+      <div class="toast" id="toast" hidden></div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="./js/app.js"></script>
+  <script src="./js/admin.js"></script>
+</body>
+</html>
