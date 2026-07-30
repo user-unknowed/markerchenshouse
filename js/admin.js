@@ -19,7 +19,11 @@
     DRAFT:   "blog-admin-draft",
     FAIL:    "blog-admin-fail",
     LOCK:    "blog-admin-lock-until",
+    SESSION: "blog-admin-session",
+    SESSION_TS: "blog-admin-session-ts",
   };
+  const SESSION_DURATION = 7 * 24 * 60 * 60 * 1000;
+  const DEFAULT_PASSWORD = "admin";
   const DEFAULT_CFG = {
     owner: "user-unknowed",
     repo:  "markerchenshouse",
@@ -119,6 +123,30 @@
     localStorage.removeItem(STORAGE.LOCK);
   }
 
+  function setSession() {
+    const pwHash = localStorage.getItem(STORAGE.PW_HASH);
+    if (pwHash) {
+      localStorage.setItem(STORAGE.SESSION, pwHash);
+      localStorage.setItem(STORAGE.SESSION_TS, String(Date.now()));
+    }
+  }
+
+  function clearSession() {
+    localStorage.removeItem(STORAGE.SESSION);
+    localStorage.removeItem(STORAGE.SESSION_TS);
+  }
+
+  function isAdmin() {
+    const session = localStorage.getItem(STORAGE.SESSION);
+    const ts = parseInt(localStorage.getItem(STORAGE.SESSION_TS) || "0", 10);
+    if (!session || !ts) return false;
+    if (Date.now() - ts > SESSION_DURATION) {
+      clearSession();
+      return false;
+    }
+    return session === localStorage.getItem(STORAGE.PW_HASH);
+  }
+
   async function tryUnlock(password) {
     if (isLockActive()) {
       const until = parseInt(localStorage.getItem(STORAGE.LOCK), 10);
@@ -128,15 +156,14 @@
     const storedHash = localStorage.getItem(STORAGE.PW_HASH);
     const salt = localStorage.getItem(STORAGE.PW_SALT) || "";
     if (!storedHash) {
-      // 首次设置
-      if (!password || password.length < 6) {
-        throw new Error("密码至少 6 位");
+      if (password === DEFAULT_PASSWORD) {
+        const newSalt = randomSalt();
+        const hash = await sha256(newSalt + ":" + password);
+        localStorage.setItem(STORAGE.PW_SALT, newSalt);
+        localStorage.setItem(STORAGE.PW_HASH, hash);
+        return true;
       }
-      const newSalt = randomSalt();
-      const hash = await sha256(newSalt + ":" + password);
-      localStorage.setItem(STORAGE.PW_SALT, newSalt);
-      localStorage.setItem(STORAGE.PW_HASH, hash);
-      return true;
+      throw new Error(`请使用默认密码 ${DEFAULT_PASSWORD} 登录`);
     }
     const hash = await sha256(salt + ":" + password);
     if (hash === storedHash) {
@@ -152,6 +179,7 @@
 
   function lockSession() {
     isUnlocked = false;
+    clearSession();
     $("editor-panel").hidden = true;
     $("gate-panel").hidden = false;
     $("pw-input").value = "";
@@ -169,31 +197,23 @@
     const title = $("gate-title");
     const label = $("pw-label");
     const confirm = $("pw-confirm-wrap");
+    title.textContent = "解锁管理后台";
     if (isSet) {
-      title.textContent = "解锁管理后台";
       sub.textContent = "请输入管理密码以继续。";
-      label.textContent = "管理密码";
-      confirm.hidden = true;
     } else {
-      title.textContent = "设置管理密码";
-      sub.textContent = "首次使用请设置一个 6 位以上的管理密码。忘记后无法找回，请妥善保管。";
-      label.textContent = "新密码";
-      confirm.hidden = false;
+      sub.textContent = `默认密码为 ${DEFAULT_PASSWORD}，登录后可自行修改。`;
     }
+    label.textContent = "管理密码";
+    confirm.hidden = true;
   }
 
   async function handleGateSubmit() {
     $("gate-error").hidden = true;
     const pw = $("pw-input").value;
-    const pw2 = $("pw-input-2").value;
-    if (!hasPassword() && pw !== pw2) {
-      $("gate-error").textContent = "两次输入的密码不一致";
-      $("gate-error").hidden = false;
-      return;
-    }
     try {
       await tryUnlock(pw);
       isUnlocked = true;
+      setSession();
       $("gate-panel").hidden = true;
       $("editor-panel").hidden = false;
       loadConfigToForm();

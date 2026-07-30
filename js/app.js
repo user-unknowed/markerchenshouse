@@ -39,7 +39,7 @@
     let text = content
       .replace(/```[\s\S]*?```/g, " ")        // 代码块
       .replace(/`[^`]*`/g, " ")                 // 行内代码
-      .replace(/!\[.*?\]\(.*?\)/g, " ")          // 图片
+      .replace(!\[.*?\]\(.*?\)/g, " ")          // 图片
       .replace(/\[(.*?)\]\(.*?\)/g, "$1")        // 链接保留文字
       .replace(/^#{1,6}\s*/gm, "")               // 标题
       .replace(/[*_>~\-]+/g, " ")                // 强调/引用
@@ -102,12 +102,16 @@
       const active = page === it.href.replace(/^\.\//, "") ? " active" : "";
       return `<a href="${it.href}" class="${active.trim()}">${it.label}</a>`;
     }).join("");
+    const adminBtn = isAdmin()
+      ? `<a href="./admin.html" class="nav-admin-btn" title="写文章">✍ 写文章</a>`
+      : "";
     const html = `
       <header class="site-header">
         <div class="nav-inner">
           <a class="brand" href="./index.html">Marker<span class="dot">'s</span> House</a>
           <div class="nav-links">
             ${links}
+            ${adminBtn}
             <button class="theme-toggle" type="button" aria-label="切换主题"></button>
           </div>
         </div>
@@ -132,13 +136,45 @@
   let _postsCache = null;
   async function loadPosts() {
     if (_postsCache) return _postsCache;
-    const res = await fetch("./data/posts.json", { cache: "no-cache" });
-    if (!res.ok) throw new Error("加载文章数据失败: " + res.status);
-    const data = await res.json();
-    // 按发布时间倒序
-    data.sort((a, b) => new Date(b.date) - new Date(a.date));
-    _postsCache = data;
-    return data;
+
+    try {
+      const res = await fetch("./data/posts.json", { cache: "no-cache" });
+      if (res.ok) {
+        const data = await res.json();
+        data.sort((a, b) => new Date(b.date) - new Date(a.date));
+        _postsCache = data;
+        return data;
+      }
+    } catch (e) {}
+
+    return new Promise((resolve, reject) => {
+      const prev = window.__BLOG_POSTS__;
+      if (Array.isArray(prev)) {
+        const data = prev.slice();
+        data.sort((a, b) => new Date(b.date) - new Date(a.date));
+        _postsCache = data;
+        resolve(data);
+        return;
+      }
+
+      window.__BLOG_POSTS__ = null;
+      const s = document.createElement("script");
+      s.src = "./data/posts.js";
+      s.onload = () => {
+        const data = window.__BLOG_POSTS__;
+        if (Array.isArray(data)) {
+          data.sort((a, b) => new Date(b.date) - new Date(a.date));
+          _postsCache = data;
+          resolve(data);
+        } else {
+          reject(new Error("posts.js 数据格式错误"));
+        }
+      };
+      s.onerror = () => {
+        reject(new Error("无法加载文章数据（请检查 data/posts.json 和 data/posts.js 是否存在）"));
+      };
+      document.head.appendChild(s);
+    });
   }
 
   // ---------- Markdown 渲染 ----------
@@ -216,6 +252,23 @@
   }
 
   // ---------- 暴露 API ----------
+  function isAdmin() {
+    try {
+      const session = localStorage.getItem("blog-admin-session");
+      const ts = parseInt(localStorage.getItem("blog-admin-session-ts") || "0", 10);
+      if (!session || !ts) return false;
+      const SESSION_DURATION = 7 * 24 * 60 * 60 * 1000;
+      if (Date.now() - ts > SESSION_DURATION) {
+        localStorage.removeItem("blog-admin-session");
+        localStorage.removeItem("blog-admin-session-ts");
+        return false;
+      }
+      return session === localStorage.getItem("blog-admin-pw-hash");
+    } catch (e) {
+      return false;
+    }
+  }
+
   global.Blog = {
     $,
     $$,
@@ -233,5 +286,6 @@
     configureMarked,
     renderMarkdown,
     getPageName,
+    isAdmin,
   };
 })(window);
