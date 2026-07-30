@@ -28,3 +28,4 @@ yarn-error.log*
 
 # 本地工具数据（WorkBuddy 工作日志、记忆等，不应上传到代码仓库）
 .workbuddy/
+.trae/
