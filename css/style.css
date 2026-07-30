@@ -132,6 +132,22 @@ a:hover {
   color: var(--accent);
   background: var(--accent-soft);
 }
+.nav-admin-btn {
+  color: var(--accent) !important;
+  background: var(--accent-soft);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all var(--transition);
+  text-decoration: none !important;
+}
+.nav-admin-btn:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+  text-decoration: none !important;
+}
 .theme-toggle {
   display: inline-flex;
   align-items: center;
