@@ -19,7 +19,10 @@
     DRAFT:   "blog-admin-draft",
     FAIL:    "blog-admin-fail",
     LOCK:    "blog-admin-lock-until",
+    SESSION: "blog-admin-session",
+    SESSION_TS: "blog-admin-session-ts",
   };
+  const SESSION_DURATION = 7 * 24 * 60 * 60 * 1000;
   const DEFAULT_CFG = {
     owner: "user-unknowed",
     repo:  "markerchenshouse",
@@ -119,6 +122,30 @@
     localStorage.removeItem(STORAGE.LOCK);
   }
 
+  function setSession() {
+    const pwHash = localStorage.getItem(STORAGE.PW_HASH);
+    if (pwHash) {
+      localStorage.setItem(STORAGE.SESSION, pwHash);
+      localStorage.setItem(STORAGE.SESSION_TS, String(Date.now()));
+    }
+  }
+
+  function clearSession() {
+    localStorage.removeItem(STORAGE.SESSION);
+    localStorage.removeItem(STORAGE.SESSION_TS);
+  }
+
+  function isAdmin() {
+    const session = localStorage.getItem(STORAGE.SESSION);
+    const ts = parseInt(localStorage.getItem(STORAGE.SESSION_TS) || "0", 10);
+    if (!session || !ts) return false;
+    if (Date.now() - ts > SESSION_DURATION) {
+      clearSession();
+      return false;
+    }
+    return session === localStorage.getItem(STORAGE.PW_HASH);
+  }
+
   async function tryUnlock(password) {
     if (isLockActive()) {
       const until = parseInt(localStorage.getItem(STORAGE.LOCK), 10);
@@ -152,6 +179,7 @@
 
   function lockSession() {
     isUnlocked = false;
+    clearSession();
     $("editor-panel").hidden = true;
     $("gate-panel").hidden = false;
     $("pw-input").value = "";
@@ -194,6 +222,7 @@
     try {
       await tryUnlock(pw);
       isUnlocked = true;
+      setSession();
       $("gate-panel").hidden = true;
       $("editor-panel").hidden = false;
       loadConfigToForm();

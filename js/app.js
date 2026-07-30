@@ -102,12 +102,16 @@
       const active = page === it.href.replace(/^\.\//, "") ? " active" : "";
       return `<a href="${it.href}" class="${active.trim()}">${it.label}</a>`;
     }).join("");
+    const adminBtn = isAdmin()
+      ? `<a href="./admin.html" class="nav-admin-btn" title="写文章">✍ 写文章</a>`
+      : "";
     const html = `
       <header class="site-header">
         <div class="nav-inner">
           <a class="brand" href="./index.html">Marker<span class="dot">'s</span> House</a>
           <div class="nav-links">
             ${links}
+            ${adminBtn}
             <button class="theme-toggle" type="button" aria-label="切换主题"></button>
           </div>
         </div>
@@ -216,6 +220,23 @@
   }
 
   // ---------- 暴露 API ----------
+  function isAdmin() {
+    try {
+      const session = localStorage.getItem("blog-admin-session");
+      const ts = parseInt(localStorage.getItem("blog-admin-session-ts") || "0", 10);
+      if (!session || !ts) return false;
+      const SESSION_DURATION = 7 * 24 * 60 * 60 * 1000;
+      if (Date.now() - ts > SESSION_DURATION) {
+        localStorage.removeItem("blog-admin-session");
+        localStorage.removeItem("blog-admin-session-ts");
+        return false;
+      }
+      return session === localStorage.getItem("blog-admin-pw-hash");
+    } catch (e) {
+      return false;
+    }
+  }
+
   global.Blog = {
     $,
     $$,
@@ -233,5 +254,6 @@
     configureMarked,
     renderMarkdown,
     getPageName,
+    isAdmin,
   };
 })(window);
