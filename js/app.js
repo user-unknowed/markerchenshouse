@@ -136,13 +136,45 @@
   let _postsCache = null;
   async function loadPosts() {
     if (_postsCache) return _postsCache;
-    const res = await fetch("./data/posts.json", { cache: "no-cache" });
-    if (!res.ok) throw new Error("加载文章数据失败: " + res.status);
-    const data = await res.json();
-    // 按发布时间倒序
-    data.sort((a, b) => new Date(b.date) - new Date(a.date));
-    _postsCache = data;
-    return data;
+
+    try {
+      const res = await fetch("./data/posts.json", { cache: "no-cache" });
+      if (res.ok) {
+        const data = await res.json();
+        data.sort((a, b) => new Date(b.date) - new Date(a.date));
+        _postsCache = data;
+        return data;
+      }
+    } catch (e) {}
+
+    return new Promise((resolve, reject) => {
+      const prev = window.__BLOG_POSTS__;
+      if (Array.isArray(prev)) {
+        const data = prev.slice();
+        data.sort((a, b) => new Date(b.date) - new Date(a.date));
+        _postsCache = data;
+        resolve(data);
+        return;
+      }
+
+      window.__BLOG_POSTS__ = null;
+      const s = document.createElement("script");
+      s.src = "./data/posts.js";
+      s.onload = () => {
+        const data = window.__BLOG_POSTS__;
+        if (Array.isArray(data)) {
+          data.sort((a, b) => new Date(b.date) - new Date(a.date));
+          _postsCache = data;
+          resolve(data);
+        } else {
+          reject(new Error("posts.js 数据格式错误"));
+        }
+      };
+      s.onerror = () => {
+        reject(new Error("无法加载文章数据（请检查 data/posts.json 和 data/posts.js 是否存在）"));
+      };
+      document.head.appendChild(s);
+    });
   }
 
   // ---------- Markdown 渲染 ----------
