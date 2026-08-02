@@ -1,10 +1,15 @@
-name: Deploy Cat Daily (Workbench) to GitHub Pages
+name: Deploy Cat Daily (Blog + Workbench) to GitHub Pages
 
 on:
   push:
     branches: [main]
     paths:
       - 'workbench/**'
+      - 'css/**'
+      - 'js/**'
+      - 'data/**'
+      - '*.html'
+      - '.nojekyll'
       - '.github/workflows/deploy-workbench.yml'
   workflow_dispatch:
 
@@ -22,13 +27,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Deploy workbench/ to gh-pages branch
+      - name: Deploy entire site to gh-pages branch
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./workbench
+          publish_dir: ./
           publish_branch: gh-pages
+          exclude_assets: |
+            .github
+            .gitignore
+            README.md
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
-          commit_message: 'chore(pages): deploy workbench ${{ github.sha }}'
+          commit_message: 'chore(pages): deploy site ${{ github.sha }}'
           force_orphan: false
