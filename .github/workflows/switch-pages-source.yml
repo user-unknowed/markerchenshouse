@@ -1,0 +1,30 @@
+name: Switch Pages Source to gh-pages
+
+on:
+  push:
+    paths:
+      - '.github/workflows/switch-pages-source.yml'
+  workflow_dispatch:
+
+permissions:
+  pages: write
+  contents: read
+  actions: read
+
+jobs:
+  switch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update Pages source to gh-pages
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          echo "=== Current Pages config ==="
+          gh api repos/${{ github.repository }}/pages --jq '{source:.source, status:.status}' || true
+          echo "=== Switching source to gh-pages / ==="
+          gh api repos/${{ github.repository }}/pages -X PUT \
+            -f 'source[branch]=gh-pages' \
+            -f 'source[path]=/' --jq '{source:.source, status:.status, html_url:.html_url}' || true
+          echo "=== Verify ==="
+          gh api repos/${{ github.repository }}/pages --jq '{source:.source, status:.status, html_url:.html_url}' || true
