@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>版面走丢 · 喵生编辑部</title>
+<meta name="theme-color" content="#f5efde" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23f5efde' stroke='%23c4651e' stroke-width='1.5'/><path d='M10 21 Q9 12 16 12 Q23 12 22 21 Z' fill='%23c4651e'/><path d='M9 12 L8 7 L13 11 M23 12 L24 7 L19 11' fill='none' stroke='%23c4651e' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/><circle cx='13.5' cy='18' r='1.3' fill='%233a2e1f'/><circle cx='18.5' cy='18' r='1.3' fill='%233a2e1f'/><path d='M15 19.8 Q16 20.8 17 19.8' fill='none' stroke='%233a2e1f' stroke-width='1.2' stroke-linecap='round'/></svg>" />
+<style>
+  :root {
+    --page-bg:#f5efde; --surface-card:#fcf6e6; --surface-nested:#f1e9d2;
+    --border:#d9cca8; --border-input:#c4b48a;
+    --text:#4a3826; --text-secondary:#7a6444; --text-tertiary:#8a7553;
+    --accent:#c4651e; --accent-muted:#f3e3c8; --on-accent:#fcf6e6;
+    --module-4:#b5482e;
+    --font-serif: Georgia, "Times New Roman", "Songti SC", "STSong", serif;
+    --font: -apple-system, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+    --radius-card:16px; --radius-tile:12px;
+    --shadow-card: 0 1px 2px rgba(74,56,38,.06), 0 4px 16px rgba(74,56,38,.07);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:var(--font);
+    background:var(--page-bg) url("assets/paper-texture.jpg");
+    background-blend-mode:multiply;
+    min-height:100vh;color:var(--text);
+    display:flex;align-items:center;justify-content:center;
+    padding:24px;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;
+    background-image:url("assets/paper-texture.jpg");
+    opacity:.4;mix-blend-mode:multiply;
+  }
+  .wrap{
+    position:relative;max-width:620px;width:100%;
+    background:var(--surface-card);border:4px double var(--border-input);
+    border-radius:var(--radius-card);padding:56px 48px 48px;
+    box-shadow:var(--shadow-card);
+  }
+  .stamp{
+    position:absolute;top:-18px;left:32px;
+    font-family:var(--font-serif);font-weight:700;font-size:12px;
+    letter-spacing:.2em;color:var(--module-4);
+    border:1.5px dashed var(--module-4);border-radius:2px;
+    padding:4px 10px;background:rgba(252,246,230,.9);transform:rotate(-3deg);
+  }
+  .tape{
+    position:absolute;top:-10px;right:40px;width:70px;height:20px;
+    background:linear-gradient(180deg, rgba(217,121,53,.55), rgba(217,121,53,.38));
+    border-left:1px dashed rgba(74,56,38,.22);border-right:1px dashed rgba(74,56,38,.22);
+    transform:rotate(4deg);
+  }
+  .code{
+    font-family:var(--font-serif);font-style:italic;font-size:14px;
+    color:var(--text-secondary);letter-spacing:.15em;margin-bottom:8px;
+  }
+  h1{
+    font-family:var(--font-serif);font-size:56px;line-height:1.05;
+    color:var(--text);margin-bottom:12px;
+  }
+  h1 em{color:var(--accent);font-style:italic;}
+  .sub{
+    font-family:var(--font-serif);font-style:italic;font-size:18px;
+    color:var(--text-secondary);margin-bottom:28px;line-height:1.6;
+  }
+  .cat{
+    width:120px;height:72px;margin:18px 0 30px;opacity:.75;
+  }
+  .divider{
+    height:2px;background:repeating-linear-gradient(90deg, var(--text-tertiary) 0 4px, transparent 4px 9px);
+    margin:28px 0;
+  }
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:var(--font-serif);font-weight:600;font-size:15px;
+    background:var(--accent);color:var(--on-accent);
+    border:1.5px solid var(--accent);border-radius:var(--radius-tile);
+    padding:12px 24px;text-decoration:none;cursor:pointer;
+    transition:transform .15s, box-shadow .15s;
+    box-shadow:0 2px 6px rgba(196,101,30,.25);
+  }
+  .btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(196,101,30,.35);}
+  .btn.sec{background:var(--surface-nested);color:var(--text);border-color:var(--border-input);box-shadow:none;}
+  .btn.sec:hover{background:var(--accent-muted);}
+  .row{display:flex;flex-wrap:wrap;gap:12px;margin-top:6px;}
+  .foot{
+    margin-top:32px;padding-top:20px;border-top:1px dashed var(--border);
+    font-family:var(--font-serif);font-style:italic;font-size:13px;color:var(--text-tertiary);
+    text-align:center;letter-spacing:.08em;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="stamp">LOST · 404 · 版面寻回中</span>
+  <span class="tape"></span>
+  <div class="code">THE CAT DAILY · 喵生纪事 · 号外号</div>
+  <h1><em>糟糕！</em><br/>这个版面被猫咪藏起来了。</h1>
+  <div class="sub">
+    可能是橘座把这一页抓去磨爪子了，<br/>
+    也可能是墨绿小编把它叠在了纸盒子下面。
+  </div>
+
+  <svg class="cat" viewBox="0 0 120 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20 54 Q22 32 44 32 L76 32 Q98 32 100 54" stroke="#c4651e" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M32 32 L28 14 L44 28" stroke="#c4651e" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M88 32 L92 14 L76 28" stroke="#c4651e" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="48" cy="44" r="2.6" fill="#4a3826"/><circle cx="72" cy="44" r="2.6" fill="#4a3826"/>
+    <path d="M56 50 Q60 54 64 50" stroke="#4a3826" stroke-width="2" stroke-linecap="round"/>
+    <path d="M100 54 Q112 56 116 64" stroke="#c4651e" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M20 54 Q8 56 4 64" stroke="#c4651e" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M54 54 L54 60 M60 54 L60 60 M66 54 L66 60" stroke="#c4651e" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="48" cy="44" r="6" fill="none" stroke="#b5482e" stroke-width="1.4" stroke-dasharray="2 2"/>
+    <circle cx="72" cy="44" r="6" fill="none" stroke="#b5482e" stroke-width="1.4" stroke-dasharray="2 2"/>
+  </svg>
+
+  <div class="divider"></div>
+
+  <div class="row">
+    <a class="btn" href="./">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5 12 3l9 6.5V21H3z"/><path d="M9 21v-7h6v7"/></svg>
+      回到头版
+    </a>
+    <a class="btn sec" href="javascript:history.back()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+      返回上一版
+    </a>
+  </div>
+
+  <div class="foot">— 喵生编辑部 · 找版启示 · 请联系橘座 —</div>
+</div>
+</body>
+</html>

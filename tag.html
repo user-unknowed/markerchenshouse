@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>标签 · Marker Chen 的小站</title>
+  <link rel="stylesheet" href="./css/style.css" />
+  <base href="./" />
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('blog-theme') || 'light';
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <div id="site-header"></div>
+
+  <main class="container">
+    <a class="back-link" href="./tags.html">← 所有标签</a>
+    <h1 class="page-title">#<span id="tag-name">…</span></h1>
+    <p class="page-subtitle">该标签下共 <span id="tag-count">0</span> 篇文章</p>
+
+    <section id="post-list" class="post-list"></section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="./js/app.js"></script>
+  <script>
+    function getTagName() {
+      const params = new URLSearchParams(location.search);
+      return params.get("name") || "";
+    }
+
+    function renderCard(post) {
+      const tags = (post.tags || [])
+        .map(
+          (t) =>
+            `<a class="tag-chip" href="./tag.html?name=${encodeURIComponent(t)}">#${Blog.escapeHtml(t)}</a>`
+        )
+        .join("");
+      const excerpt = post.excerpt || Blog.extractExcerpt(post.content, 140);
+      return `
+        <article class="post-card">
+          <h2><a href="./post.html?id=${encodeURIComponent(post.id)}">${Blog.escapeHtml(post.title)}</a></h2>
+          <div class="post-meta">
+            <span class="meta-item">📅 ${Blog.formatDate(post.date)}</span>
+            <span class="meta-item">✍ ${Blog.escapeHtml(post.author || "Marker Chen")}</span>
+          </div>
+          <p class="post-excerpt">${Blog.escapeHtml(excerpt)}</p>
+          <div class="post-tags">${tags}</div>
+        </article>
+      `;
+    }
+
+    (async function init() {
+      Blog.applyTheme(Blog.getSavedTheme());
+      Blog.renderHeader();
+      Blog.renderFooter();
+
+      const tag = getTagName();
+      document.getElementById("tag-name").textContent = tag;
+      document.title = `#${tag} · Marker Chen 的小站`;
+
+      const list = document.getElementById("post-list");
+      if (!tag) {
+        list.innerHTML = `<div class="empty-state"><p>未指定标签。</p></div>`;
+        return;
+      }
+
+      try {
+        const all = await Blog.loadPosts();
+        const filtered = all.filter((p) => (p.tags || []).includes(tag));
+        document.getElementById("tag-count").textContent = filtered.length;
+        if (filtered.length === 0) {
+          list.innerHTML = `<div class="empty-state"><p>该标签下暂无文章。</p></div>`;
+          return;
+        }
+        list.innerHTML = filtered.map(renderCard).join("");
+      } catch (err) {
+        list.innerHTML = `<div class="empty-state"><p>加载失败：${Blog.escapeHtml(err.message)}</p></div>`;
+      }
+    })();
+  </script>
+</body>
+</html>
