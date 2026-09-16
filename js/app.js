@@ -281,7 +281,7 @@
       refs.push({ url: trimmedUrl, index });
       return (
         `<sup class="ref-mark" id="ref-src-${index}">` +
-        `<a href="#ref-${index}" aria-label="引用 ${index}">` +
+        `<a href="${escapeHtml(trimmedUrl)}" target="_blank" rel="noopener noreferrer" aria-label="打开来源链接 ${index}">` +
         `[${toSuperscript(index)}]</a></sup>`
       );
     });
