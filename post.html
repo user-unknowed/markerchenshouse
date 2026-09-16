@@ -16,6 +16,7 @@
   </script>
 </head>
 <body>
+  <div class="reading-progress"><div class="reading-progress-bar"></div></div>
   <div id="site-header"></div>
 
   <main class="container">
@@ -106,6 +107,7 @@
         `;
 
         renderPostNav(posts, idx);
+        Blog.initReadingProgress();
       } catch (err) {
         detail.innerHTML = `<div class="empty-state"><p>加载失败：${Blog.escapeHtml(err.message)}</p></div>`;
       }

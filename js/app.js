@@ -59,6 +59,27 @@
       .replace(/'/g, "&#39;");
   }
 
+  // 数字转 Unicode 上标字符
+  function toSuperscript(num) {
+    const map = {
+      "0": "⁰", "1": "¹", "2": "²", "3": "³", "4": "⁴",
+      "5": "⁵", "6": "⁶", "7": "⁷", "8": "⁸", "9": "⁹",
+    };
+    return String(num)
+      .split("")
+      .map((d) => map[d] || d)
+      .join("");
+  }
+
+  // 从 URL 提取主域名（去掉 www.）
+  function extractDomain(url) {
+    try {
+      return new URL(url).hostname.replace(/^www\./, "");
+    } catch (e) {
+      return url;
+    }
+  }
+
   // ---------- 主题切换 ----------
   const THEME_KEY = "blog-theme";
   function getSavedTheme() {
@@ -244,11 +265,92 @@
     });
   }
 
+  // ---------- 引用上标化预处理 ----------
+  function processReferences(md) {
+    if (!md || typeof md !== "string") {
+      return { markdown: md || "", refs: [] };
+    }
+
+    const refs = [];
+    const refRegex = /\[\$TRAE_REF\]\(([^)]+)\)/g;
+
+    // Step 1: 扫描并替换所有 [$TRAE_REF](url)
+    let processedMd = md.replace(refRegex, (match, url) => {
+      const trimmedUrl = url.trim();
+      const index = refs.length + 1;
+      refs.push({ url: trimmedUrl, index });
+      return (
+        `<sup class="ref-mark" id="ref-src-${index}">` +
+        `<a href="#ref-${index}" aria-label="引用 ${index}">` +
+        `[${toSuperscript(index)}]</a></sup>`
+      );
+    });
+
+    // Step 2: 追加参考资料小节（仅当有引用时）
+    if (refs.length > 0) {
+      let refSection = "\n\n---\n\n";
+      refSection += '<h2 class="references-title">参考资料</h2>\n\n';
+      refSection += '<ol class="references-list">\n';
+      refs.forEach((ref) => {
+        const domain = extractDomain(ref.url);
+        refSection +=
+          `<li id="ref-${ref.index}">` +
+          `<a href="${escapeHtml(ref.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(ref.url)}</a> ` +
+          `<span class="ref-domain">— ${escapeHtml(domain)}</span> ` +
+          `<a href="#ref-src-${ref.index}" class="ref-back-link" aria-label="回到正文引用位置 ${ref.index}">↩</a>` +
+          `</li>\n`;
+      });
+      refSection += "</ol>\n";
+      processedMd += refSection;
+    }
+
+    return { markdown: processedMd, refs };
+  }
+
   function renderMarkdown(md) {
     if (typeof window.marked === "undefined") {
       return `<pre>${escapeHtml(md)}</pre>`;
     }
-    return window.marked.parse(md || "");
+    const { markdown: processedMd } = processReferences(md || "");
+    return window.marked.parse(processedMd);
+  }
+
+  // ---------- 阅读进度条 ----------
+  function initReadingProgress() {
+    const bar = document.querySelector(".reading-progress-bar");
+    if (!bar) return;
+
+    // 现代浏览器支持 CSS scroll-driven 动画则跳过 JS 实现
+    try {
+      if (window.CSS && CSS.supports("animation-timeline", "scroll()")) {
+        return;
+      }
+    } catch (e) {}
+
+    // JS 降级方案
+    let ticking = false;
+    const update = () => {
+      const scrollTop = window.scrollY || window.pageYOffset;
+      const docHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? scrollTop / docHeight : 0;
+      bar.style.transform = `scaleX(${Math.min(1, Math.max(0, progress))})`;
+      ticking = false;
+    };
+
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (!ticking) {
+          window.requestAnimationFrame(update);
+          ticking = true;
+        }
+      },
+      { passive: true }
+    );
+
+    // 初始化一次
+    update();
   }
 
   // ---------- 暴露 API ----------
@@ -284,7 +386,9 @@
     ensureMarkedLoaded,
     ensureHighlightLoaded,
     configureMarked,
+    processReferences,
     renderMarkdown,
+    initReadingProgress,
     getPageName,
     isAdmin,
   };
