@@ -1,5 +1,19 @@
 var posts = [
   {
+    "id": "ai-news-2026-09-25",
+    "title": "AI 今日热点（2026.09.25）：Anthropic 与 OpenAI 低价旗舰点燃价格战，AI 芯片新贵估值看齐百亿美元",
+    "date": "2026-09-25",
+    "author": "Marker Chen",
+    "tags": [
+      "AI",
+      "今日热点",
+      "资讯",
+      "自动化"
+    ],
+    "excerpt": "本周价格战升级：Anthropic 推出 Claude Opus 5.5、OpenAI 同日发布 GPT-6 Sol 与 Luna，参数成本大幅下探；AI 芯片新贵 DensityAI 估值逼近百亿美元，Anthropic 与 Akamai 敲定 116 亿美元算力大单，OpenAI 洽谈估值或达 1.2 万亿的新融资；Claude 发现新型类 CRISPR 酶系统，阿里达摩院食管癌模型登上《自然·医学》，欧盟 AI 法案修订版生效。",
+    "content": "# AI 今日热点（2026.09.25）：Anthropic 与 OpenAI 低价旗舰点燃价格战，AI 芯片新贵估值看齐百亿美元\n\n今天是 2026 年 9 月 25 日，星期五。本周 AI 行业的核心叙事围绕“规模与价格”展开：Anthropic 与 OpenAI 几乎前后脚发布新一代低价旗舰，把大模型价格战推向新高度；与此同时，AI 芯片新贵估值逼近百亿美元、Anthropic 与 Akamai 敲定百亿级算力大单、OpenAI 洽谈新一轮万亿级融资，算力与资金的军备竞赛多点开花；AI for Science 与医疗影像则带来技术亮色。以下为今日值得关注的 7 条热点，按重要程度排序。\n\n## 今日 AI 热点\n\n### 1. Anthropic 与 OpenAI 相继发布低价旗舰，大模型价格战升级（产品发布 · 商业）\n\n据钛媒体报道，美国时间 9 月 22 日 Anthropic 发布 Claude Opus 5.5，约一个半小时后 OpenAI 推出 GPT-6 Sol 与 GPT-6 Luna，两家都把“便宜”写在海报最显眼位置。GPT-6 Sol 每百万 Token 输入、输出价格降至 2 美元与 10 美元，约为上一代一半；Luna 更把输入价压到 0.1 美元，降幅最高约 58%；Claude Opus 5.5 则在多数任务上对标 Fable 5.1，运行成本比 Opus 5 低约 40%。头部模型“降价换量、以价换市”的策略进一步固化。\n\n**来源：** [钛媒体APP](http://m.toutiao.com/group/7689281515775066639/) / [OpenAI](https://help.openai.com/zh-hans-cn/articles/9624314-模型发布说明) / [Anthropic](https://www.anthropic.com/news)\n\n### 2. AI 芯片新贵 DensityAI 融资进入后期，投后估值看齐 100 亿美元（融资 · 算力）\n\n财联社 9 月 25 日报道，由特斯拉 Dojo 超级计算机项目前核心团队一年前创办的 AI 芯片初创 DensityAI 正进入融资谈判后期，计划募资数亿美元，对应估值约 100 亿美元。知情人士称，公司已向潜在投资者展示：一旦芯片达到指定性能指标，亚马逊云科技（AWS）将采购其芯片。AI 算力芯片的一级市场热度依然高企。\n\n**来源：** [财联社](https://www.cls.cn/detail/2492917)\n\n### 3. Anthropic 与 Akamai 敲定 116 亿美元算力大单，加码数据中心布局（产品 · 算力）\n\n36氪快讯消息，Anthropic 与 Akamai Technologies 签署一份为期七年、价值 116 亿美元的算力合同，以进一步扩大数据中心布局。根据协议，Akamai 将向 Anthropic 提供 CPU 算力；随 AI 服务对通用芯片需求增长，双方还同步推进认股权安排。头部实验室对“长期锁定算力资源”的需求愈发迫切。\n\n**来源：** [36氪快讯](https://m.36kr.com/newsflashes/)\n\n### 4. OpenAI 洽谈新一轮融资，估值或达 1.2 万亿美元（融资 · 商业）\n\n据新浪科技援引知情人士，OpenAI 正与投资者就新一轮融资展开初步磋商，潜在估值约 1.2 万亿美元；该目标较 3 月份 1220 亿美元融资、投后约 8500 亿美元估值明显抬升，正值 GPT-5.6 与 Astra 系列发布后营收加速增长、IPO 安排后延之际。顶级大模型公司对资本市场资金的渴望，仍是当季最热话题之一。\n\n**来源：** [新浪财经](https://cj.sina.com.cn/articles/view/2868676035/aafc85c302001xgjm)\n\n### 5. Anthropic 用 Claude 发现新型类 CRISPR 酶系统，AI for Science 再下一城（技术突破 · 科研）\n\n据 HyperAI 超神经报道，Anthropic 利用大模型识别出新型类 CRISPR 酶系统，大幅缩短基因工具研发周期，标志生成式 AI 实质性介入生命科学、推动研发范式变革，同时引发对伦理边界的讨论。继生命科学团队落地之后，Anthropic 的“科学研究底座”叙事进一步夯实。\n\n**来源：** [HyperAI超神经](https://hyper.ai/cn/stories)\n\n### 6. 阿里达摩院发布食管癌筛查模型 DAMO EAGLE，登上《自然·医学》（技术突破 · 医疗）\n\n新浪科技与澎湃新闻报道，阿里达摩院联合多家医院发布食管癌筛查 AI 模型 DAMO EAGLE，无需插管和造影，从平扫 CT 即可识别包括早期与癌前恶性病变在内的食管癌，已在 3 个国家超 8 万病例验证，论文登上《自然·医学》。模型采用“先定位、后诊断”的两阶段架构，让判断依据可见，代表医疗大模型向“可解释、可落地”演进。\n\n**来源：** [澎湃新闻](http://m.toutiao.com/group/7688939724567806500/) / [新浪财经](http://m.toutiao.com/group/7688941135810167322/)\n\n### 7. 欧盟《AI 法案》修订版正式生效，高风险系统时限延长（标准 · 治理）\n\n据欧盟数字战略官网，经 2026 年 7 月 24 日于官方公报发布后，《欧盟 AI 法案》修订版于 7 月 27 日生效——既调整了部分规则适用时间线、引入新的被禁止做法，也延长了部分高风险 AI 系统的合规期限；同时欧洲人工智能办公室与各成员国主管部门正式获得执法权限。治理规则进入“落地执行阶段”，全球化合规成本成为企业的必修课。\n\n**来源：** [EU Digital Strategy](https://digital-strategy.ec.europa.eu/en/policies/ai-board) / [digital.gov.pt](https://digital.gov.pt/en/noticias/regulamento-europeu-de-inteligencia-artificial-novos-prazos-e-novas-regras)\n\n## 今日趋势点评\n\n今日 AI 行业的两条主线清晰：一条是“算力与价格的军备竞赛”——头部模型同周降价、AI 芯片新贵估值看齐百亿、长期算力大单与万亿级融资接连落地，规模与成本之争白热化；另一条是“前沿能力向科学纵深下沉”——AI for Science 发现新型酶系统、医疗影像模型登上顶级期刊，并叠加欧盟 AI 法案进入执行期。可以预期，谁能同时跑赢“降价获客”与“科学价值兑现”、并率先跨过合规门槛，谁就将在接下来的行业格局中占据主动。"
+  },
+  {
     "id": "ai-news-2026-09-24",
     "title": "AI 今日热点（2026.09.24）：两大 AI 巨头 CEO 同日亮相联合国呼吁全球治理，Anthropic 进军生命科学、Cognex 收购 RealSense",
     "date": "2026-09-24",
