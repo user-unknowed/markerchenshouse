@@ -1,5 +1,19 @@
 var posts = [
   {
+    "id": "ai-news-2026-09-26",
+    "title": "AI 今日热点（2026.09.26）：Anthropic 拟让创始团队拿 50.1% 投票权，OpenAI 被曝筹备 GPT-6 Cyber 与 ProMax 订阅",
+    "date": "2026-09-26",
+    "author": "Marker Chen",
+    "tags": [
+      "AI",
+      "今日热点",
+      "资讯",
+      "自动化"
+    ],
+    "excerpt": "Anthropic 拟以新股份类别赋予 7 位联合创始人合计 50.1% 投票权、备战超级 IPO；OpenAI 被曝筹备网络安全模型 GPT-6 Cyber，并推出月费或达 500-600 美元的 ProMax 订阅层级；智谱股价再创新低、头部厂商掀新一轮 API 降价潮，DeepSeek 桌面版悄然上线，SK 海力士旗下 Solidigm 拟明年 IPO，特朗普将推 AI 驱动门户 America.gov。",
+    "content": "# AI 今日热点（2026.09.26）：Anthropic 拟让创始团队拿 50.1% 投票权，OpenAI 被曝筹备 GPT-6 Cyber 与 ProMax 订阅\n\n今天是 2026 年 9 月 26 日，星期六。今日叙事的中心是“资本与治理的博弈、产品变现的分层”：Anthropic 一边以给予创始团队 50.1% 投票权的新架构备战可能成为史上最大之一的 IPO，一边通过高价订阅、网络安全垂类落地打开商业纵深；与此同时，智谱股价走弱、头部厂商新一轮 API 降价、DeepSeek 桌面版上线，以及政府门户 AI 化的 America.gov，共同勾勒出商业化、成本战与公共治理三条交织的支线。以下为今日值得关注的 7 条热点，按重要程度排序。\n\n## 今日 AI 热点\n\n### 1. Anthropic 拟赋予 7 位联合创始人 50.1% 投票权，备战超级 IPO（商业 · 治理）\n\n据 The Information 报道，Anthropic 正寻求股东批准一套仿效 Palantir 的创始人控制结构：向 CEO 阿莫迪（Dario Amodei）及其 6 位联合创始人授予一类特殊股份，使他们在多数公司事务上合计掌握 50.1% 投票权，而经济权益保持每人约 2% 不变。此举正值公司筹备可能成为史上规模最大之一的 IPO 之际，把“上市后创始人如何保持控制”这一治理问题提前摆上台面。\n\n**来源：** [新浪财经](http://m.toutiao.com/group/7689435419582186011/) / [The Information 报道 · CoinDesk](https://coindesk.cc/anthropic-s-founders-seek-50-1-voting-control-despite-owning-just-2-each-118917.html)\n\n### 2. OpenAI 被曝筹备网络安全专用模型 GPT-6 Cyber（产品 · 安全）\n\n据 Gadgets 360 援引知情人士，OpenAI 计划推出一款面向网络安全的新模型 GPT-6 Cyber，预计未来数周内率先发布预览版。舆论关注其如何在“关键级”能力与滥用风险之间取得平衡——此前的 GPT-6 Astra 已成为首个依据准备框架达到网络安全能力“关键”级别、并由微软在 Foundry 提供正式版的模型，为后续安全管理奠定了基础。\n\n**来源：** [Gadgets 360](https://turbo.gadgets360.com/en/ai/openai-gpt-6-cyber-preview-launch-soon-new-consumer-product-report-news-12097629) / [InfoQ](https://www.infoq.com/news/2026/09/gpt-6-astra-critical-cyber/)\n\n### 3. 智谱股价再创新低，大模型赛道掀起新一轮降价潮（商业 · 市场）\n\n据观察者网硬科技早报，9 月 25 日智谱股价继续走弱，一度跌至 610.5 港元附近，总市值回到约 3000 亿港元，较今年 6 月 2980 港元/股的历史高点明显回落。消息面上，从 DeepSeek、阿里千问到海外 OpenAI 等头部厂商接连下调 API 调用价格，单位 Token 成本持续下探。市场正把“降价换量”策略的兑现能力，视为评估估值的关键变量。\n\n**来源：** [观察者网 · 硬科技早报](http://m.toutiao.com/group/7689658996567638569/)\n\n### 4. OpenAI 被曝筹备 ProMax 订阅层级，月费或达 500-600 美元（产品 · 商业）\n\n据极客公园等报道，OpenAI 被曝正在筹备新的订阅层级 ProMax，月费可能高达 500-600 美元，瞄准高端个人与重度企业用户。随着模型能力与推理成本进一步分化，“分层订阅 + 高价增值”正成为头部实验室持续推进商业化、回收算力成本的重要手段。\n\n**来源：** [极客公园](http://m.toutiao.com/group/7689640360666071588/)\n\n### 5. DeepSeek 桌面版悄然上线，C 端落地提速（产品 · 国内）\n\n据极客公园，DeepSeek 桌面版悄然上线，标志其在开放平台与开源权重之外，进一步布局本地的“上手即用”客户端。头部厂商把用户体验向端侧迁移，围绕开发者与个人用户的双重增长路径正在成型。\n\n**来源：** [极客公园](http://m.toutiao.com/group/7689640360666071588/)\n\n### 6. SK 海力士旗下 Solidigm 拟最早明年 IPO，估值最高 1500 亿美元（融资 · 半导体）\n\n据路透社报道，三名知情人士称，存储芯片厂商 SK 海力士旗下美国子公司 Solidigm 正考虑最早于明年进行首次公开募股（IPO），估值可能高达约 1500 亿美元；公司本周已与竞争该 IPO 项目的投行举行“bake-off”推介会，有望成为美国史上最大的半导体 IPO 之一。\n\n**来源：** [澎湃新闻](https://m.thepaper.cn/newsDetail_forward_34154320)\n\n### 7. 特朗普将于下周二推出 AI 驱动的政府门户 America.gov（标准 · 政策）\n\n据 36 氪援引新浪财经，美国总统特朗普将发布一个由 AI 驱动的新网站 America.gov，整合分散在各联邦机构网站上的政府信息与资源；福克斯新闻称，特斯拉 CEO 马斯克、英伟达 CEO 黄仁勋与 Blue Origin CEO Dave Limp 预计将出席发布活动。政府门户的 AI 化，被视为公共部门应用与数据治理的又一风向标。\n\n**来源：** [36氪快讯](https://36kr.com/newsflashes)\n\n## 今日趋势点评\n\n今日 AI 行业的两条主线是“资本与治理的博弈”和“产品变现的分层”：Anthropic 一边以 50.1% 投票权架构备战超级 IPO，一边通过高价订阅、网络安全垂类与政府门户 AI 化把商业化场景摊开；而智谱股价走弱与新一轮 API 降价，则提醒市场，能力军备之外，单位 Token 成本的兑现正成为估值的硬约束。可以预期，谁能同时跑通“高端增值”与“低成本走量”、并跨过上市与合规门槛，谁就将在下一阶段占据主动。"
+  },
+  {
     "id": "ai-news-2026-09-25",
     "title": "AI 今日热点（2026.09.25）：Anthropic 与 OpenAI 低价旗舰点燃价格战，AI 芯片新贵估值看齐百亿美元",
     "date": "2026-09-25",
