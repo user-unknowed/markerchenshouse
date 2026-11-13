@@ -1,5 +1,19 @@
 window.POSTS = [
   {
+    "id": "ai-news-2026-11-13",
+    "title": "AI 今日热点（2026.11.13）：谷歌 Gemini 4 Hydrogen 低价开放百万上下文、Anthropic IPO 六倍超购、华为 openPangu-2.1-Pro 定档与昇腾 950 出海",
+    "date": "2026-11-13",
+    "author": "Marker Chen",
+    "tags": [
+      "AI",
+      "今日热点",
+      "资讯",
+      "自动化"
+    ],
+    "excerpt": "谷歌发布 Gemini 4 Hydrogen 以 1.50 美元/百万输入 token 撞响长上下文价格战；Anthropic IPO 获约六倍超额认购；华为 openPangu-2.1-Pro 定档 11 月 15 日上线、昇腾 950 算力 11 月 30 日海外商用；OpenAI 收购 Pierre Computer 并开源 Codex Security CLI。",
+    "content": "## 今日 AI 热点\n\n> 更新时间：2026-11-13 · 按重要性排序 · 共 8 条 · 图片为 AI 生成配图\n\n### 1. 谷歌发布 Gemini 4 Hydrogen：百万上下文「不加价」，长文本价格战升级（产品发布）\n\n**一句话摘要**：谷歌正式发布 Gemini 4 Hydrogen，输入 1.50 美元/百万 token、输出 7.50 美元/百万 token，1M 长上下文同价不加收，在 Artificial Analysis 智能指数上以 51 分略超上代 Argon 的 50 分，把「百万上下文」从稀缺能力打成默认配置。\n\n**信息来源**：Google 官方博客、Artificial Analysis\n\n![谷歌 Gemini 4 Hydrogen 数据中心概念配图](./images/ai-news-2026-11-13/01-gemini4-hydrogen.jpg)\n\n### 2. Anthropic IPO 获约六倍超额认购，成年度最大 AI 上市事件（资本市场）\n\n**一句话摘要**：Anthropic 首次公开募股获得约六倍超额认购，机构订单规模约 904 亿美元，认购热度刷新年内 AI 公司 IPO 纪录，上市首日表现成为市场焦点。\n\n**信息来源**：Reuters、Bloomberg\n\n![Anthropic IPO 华尔街主题配图](./images/ai-news-2026-11-13/02-anthropic-ipo.jpg)\n\n### 3. 华为系双线推进：openPangu-2.1-Pro 定档 11 月 15 日上线，昇腾 950 算力 11 月 30 日海外商用（产品发布 · 华为）\n\n**一句话摘要**：华为确认 openPangu-2.1-Pro 开源大模型将于 11 月 15 日正式上线，昇腾 950 系列算力 11 月 30 日在海外市场开启商用，「开源模型 + 自研算力」双线出海的具体时间表落地。\n\n**信息来源**：华为云官方公告、昇腾社区\n\n![华为云园区与昇腾集群概念配图](./images/ai-news-2026-11-13/03-huawei-openpangu.jpg)\n\n### 4. OpenAI 收购 Pierre Computer，补强 Agent 编程工具链（行业并购）\n\n**一句话摘要**：OpenAI 宣布收购开发者工具公司 Pierre Computer，团队并入 Codex 产品线，为 AI 编程与 Agent 工作流补上代码托管与协作的关键一环。\n\n**信息来源**：OpenAI 官方博客\n\n![OpenAI 收购 Pierre Computer 概念配图](./images/ai-news-2026-11-13/04-openai-pierre.jpg)\n\n### 5. DeepMind 发布 AlphaGenome 2：1.07 亿细胞图谱，因果变异识别率近乎翻倍（技术突破）\n\n**一句话摘要**：Google DeepMind 发布 AlphaGenome 2，基于 1.07 亿细胞、覆盖 68 类组织的训练图谱，将基因组致病因果变异的识别准确率从此前的 16% 提升至 30%。\n\n**信息来源**：Google DeepMind 官方博客\n\n![AlphaGenome 2 基因组数据流概念配图](./images/ai-news-2026-11-13/05-alphagenome2.jpg)\n\n### 6. LangChain 完成 3 亿美元融资，CapitalG 领投（融资）\n\n**一句话摘要**：Agent 开发框架 LangChain 完成 3 亿美元融资，由谷歌旗下 CapitalG 领投，Agent 编排与可观测性基础设施成为资本新一轮押注焦点。\n\n**信息来源**：TechCrunch、Fortune\n\n![LangChain Agent 网络与增长曲线概念配图](./images/ai-news-2026-11-13/06-langchain-funding.jpg)\n\n### 7. 曦选创智获 5 亿元天使轮，纪源资本与经纬创投领投（融资 · 国内）\n\n**一句话摘要**：聚焦具身智能端侧芯片的创企曦选创智完成 5 亿元人民币天使轮融资，由纪源资本、经纬创投领投，为国内年内规模最大的天使轮之一。\n\n**信息来源**：36氪、科创板日报\n\n![具身智能端侧芯片概念配图](./images/ai-news-2026-11-13/07-xixuan-robot-chip.jpg)\n\n### 8. OpenAI 开源 Codex Security CLI：Apache 2.0 协议，AI 安全审计进 CI（开源 · 安全）\n\n**一句话摘要**：OpenAI 将 Codex Security CLI 以 Apache 2.0 协议开源，支持在 CI 流水线中对代码仓库执行 AI 驱动的安全扫描，安全左移工具链进一步下沉到开发者日常。\n\n**信息来源**：OpenAI GitHub、官方博客\n\n![Codex Security CLI 代码安全扫描概念配图](./images/ai-news-2026-11-13/08-codex-security.jpg)\n\n## 今日趋势点评\n\n今日主线有三：谷歌以「百万上下文同价」直接点燃大模型价格战，长上下文正从稀缺能力变为默认配置，中小厂商的定价空间被进一步压缩；Agent 基础设施成为资本与并购的共同靶心，OpenAI 收购 Pierre、LangChain 巨额融资、Codex Security CLI 开源均指向这一赛道；华为以 openPangu 开源模型与昇腾算力双线出海，叠加国内具身智能创企的大额天使轮，「模型 + 算力 + 硬件」的中国叙事正在加速兑现。"
+  },
+  {
     "id": "ai-news-2026-11-12",
     "title": "AI 今日热点（2026.11.12）：谷歌 Gemini Decision 1 决策评分免费开放、华为 openPangu 定档与昇腾 950 出海、英国 Fractile 70 亿美元估值融资",
     "date": "2026-11-12",
