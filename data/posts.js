@@ -1,5 +1,19 @@
 window.POSTS = [
   {
+    "id": "ai-news-2026-11-14",
+    "title": "AI 今日热点（2026.11.14）：OpenAI 推出 ChatGPT Wallet 打通代理支付、非营利组织起诉三大 AI 巨头、华为 openPangu-2.1-Pro 明日上线与昇腾零日适配万亿模型",
+    "date": "2026-11-14",
+    "author": "Marker Chen",
+    "tags": [
+      "AI",
+      "今日热点",
+      "资讯",
+      "自动化"
+    ],
+    "excerpt": "OpenAI 推出 ChatGPT Wallet 联手运通、万事达与 Visa 让智能体代客付款；非营利组织起诉 OpenAI、Anthropic、谷歌要求暂停 AI 开发；华为 openPangu-2.1-Pro 定档明日上线、昇腾完成 2.8 万亿参数模型零日推理适配；MIT CSAIL「权重空间编程」新范式全网刷屏。",
+    "content": "## 今日 AI 热点\n\n> 更新时间：2026-11-14 · 按重要性排序 · 共 8 条 · 图片为 AI 生成配图\n\n### 1. OpenAI 推出 ChatGPT Wallet：联手三大支付网络，为 AI 代理付款铺路（产品发布 · 商业）\n\n**一句话摘要**：OpenAI 宣布推出支付功能 ChatGPT Wallet，与美国运通、万事达和 Visa 三大支付网络合作，通过替代支付凭证让 dot 智能体无需接触用户真实卡号即可完成下单付款，初期面向美国 Pro 订阅用户开放且不从交易中抽取佣金。\n\n**信息来源**：OpenAI 官方博客、财联社、新浪科技\n\n![ChatGPT Wallet 智能体支付概念配图](./images/ai-news-2026-11-14/01-chatgpt-wallet.jpg)\n\n### 2. 非营利组织起诉 OpenAI、Anthropic、谷歌，要求暂停 AI 开发（监管 · 行业）\n\n**一句话摘要**：多家非营利组织在华盛顿对 OpenAI、Anthropic 与谷歌提起诉讼，要求叫停三家公司的 AI 开发活动，主张前沿模型迭代速度已超出安全可控边界，案件走向可能深刻影响三大巨头的研发节奏。\n\n**信息来源**：The Economic Times\n\n![AI 诉讼法庭主题配图](./images/ai-news-2026-11-14/02-ai-lawsuit.jpg)\n\n### 3. 华为云 openPangu-2.1-Pro 明日上线 MaaS 平台，智能体自律公约同步发布（产品发布 · 华为）\n\n**一句话摘要**：华为云确认 openPangu-2.1-Pro 旗舰模型将于 11 月 15 日上线 MaaS 平台，重点提升 ArkTS 代码生成质量并深度契合昇腾算子开发流程，行业智能体自律公约同日发布，此前关于盘古大模型「停售」的传闻亦被官方澄清。\n\n**信息来源**：华为云官方新闻\n\n![openPangu-2.1-Pro 模型上线概念配图](./images/ai-news-2026-11-14/03-huawei-openpangu21pro.jpg)\n\n### 4. 昇腾完成 2.8 万亿参数 Kimi K3.1 Pro 零日推理适配，DeepSeek V5 确认基于昇腾预训练（算力突破 · 华为）\n\n**一句话摘要**：华为昇腾基于 vLLM Ascend 与 SGLang 框架完成 2.8 万亿参数 Kimi K3.1 Pro 模型的 0 Day 推理适配，支持 Atlas 800 A3 及 900 A3 SuperPod 部署，同时 DeepSeek V5 确认将基于昇腾芯片进行预训练，国产算力正从推理侧深入训练核心环节。\n\n**信息来源**：华为云官方新闻、昇腾社区\n\n![昇腾集群万亿模型推理概念配图](./images/ai-news-2026-11-14/04-ascend-inference.jpg)\n\n### 5. MIT CSAIL 提出「权重空间编程」新范式：GPT-6 模型数学能力提升 6 倍（技术突破 · 论文）\n\n**一句话摘要**：MIT 计算科学与人工智能实验室（CSAIL）提出颠覆传统深度学习范式的「权重空间编程」，直接对模型权重进行编程式优化，在 GPT-6 模型上把数学能力提升 6 倍，论文发布当天在全网刷屏。\n\n**信息来源**：MIT CSAIL、36氪\n\n![权重空间编程算法可视化配图](./images/ai-news-2026-11-14/05-weight-space-programming.jpg)\n\n### 6. Mirendil 完成 10 亿美元 A 轮：Kleiner Perkins 与 Clearlake 领投，谷歌参投（融资）\n\n**一句话摘要**：由两位前 Anthropic 研究员创办的 Mirendil 宣布完成 10 亿美元 A 轮融资，Kleiner Perkins 与 Clearlake Capital 联合领投、谷歌参投，公司致力于让「一名研究员携 Agent 完成前沿模型预训练」，融资规模为其 6 月种子轮的 5 倍。\n\n**信息来源**：Mirendil 官方公告、SiliconANGLE\n\n![Mirendil AI 研究融资概念配图](./images/ai-news-2026-11-14/06-mirendil-funding.jpg)\n\n### 7. 谷歌 Gemini Glasses 开启预订，AI 眼镜硬件生态提速（产品发布）\n\n**一句话摘要**：谷歌 AI 眼镜 Gemini Glasses 开启预订，与 n8n 发布本地开源 Agent、antigravity 多模型任务路由等动态同日亮相，谷歌正把 AI 能力从云端模型延伸到随身硬件与本地自动化场景。\n\n**信息来源**：AIToolsRecap、谷歌官方渠道\n\n![Gemini Glasses AI 眼镜概念配图](./images/ai-news-2026-11-14/07-gemini-glasses.jpg)\n\n### 8. 中国拟将 AI 恶意代码生成技术列入出口管制目录，智能体标准体系加快构建（行业标准）\n\n**一句话摘要**：商务部就修订《中国禁止出口限制出口技术目录》答记者问，拟对「人工智能自主驱动恶意代码生成与变异技术」实施出口管制，强调确保 AI 始终处于人类控制之下；同期智能体标准框架与 AIP 互联标准正加快布局。\n\n**信息来源**：商务部官网、中央网信办\n\n![中国 AI 出口管制与数据治理主题配图](./images/ai-news-2026-11-14/08-china-export-control.jpg)\n\n## 今日趋势点评\n\n今日焦点从「模型能力」转向「AI 的钱袋子与刹车片」：ChatGPT Wallet 打通智能体支付闭环，标志 AI 商业化从对话走向交易，而针对三大巨头的诉讼与中国出口管制新规则显示监管正在同步收紧。华为双线推进开源模型上线与昇腾算力零日适配，「模型 + 算力」的国产化叙事持续兑现，AI 基础设施自主可控正在成为确定性主线。"
+  },
+  {
     "id": "ai-news-2026-11-13",
     "title": "AI 今日热点（2026.11.13）：谷歌 Gemini 4 Hydrogen 低价开放百万上下文、Anthropic IPO 六倍超购、华为 openPangu-2.1-Pro 定档与昇腾 950 出海",
     "date": "2026-11-13",
